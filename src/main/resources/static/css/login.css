@@ -1,0 +1,597 @@
+/* ================================
+   GLASS LOGIN
+================================ */
+
+.login-page {
+    flex: 1;
+    min-height: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    /* Nền */
+    background:
+            radial-gradient(
+                    circle at 20% 20%,
+                    rgba(0, 115, 190, 0.18),
+                    transparent 35%
+            ),
+            radial-gradient(
+                    circle at 80% 80%,
+                    rgba(255, 170, 0, 0.12),
+                    transparent 35%
+            ),
+            linear-gradient(
+                    135deg,
+                    #e8f4fb,
+                    #f5f9fc
+            );
+}
+
+
+
+/* ================================
+   CARD MẶT KÍNH
+================================ */
+
+.login-card {
+    width: 420px;
+
+    padding: 32px 38px;
+
+    box-sizing: border-box;
+
+    /* Glass */
+    background: rgba(255, 255, 255, 0.58);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.75);
+
+    border-radius: 22px;
+
+    /* Bóng */
+    box-shadow:
+            0 20px 50px rgba(0, 70, 120, 0.15),
+            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* Ánh sáng trên mặt kính */
+
+.login-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -100px;
+    right: -70px;
+
+    background: rgba(255, 255, 255, 0.45);
+
+    border-radius: 50%;
+
+    filter: blur(5px);
+
+    pointer-events: none;
+}
+
+/* ================================
+   LOGO
+================================ */
+
+.login-logo {
+    text-align: center;
+
+    margin-bottom: 12px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.login-logo img {
+    width: 65px;
+    height: 55px;
+
+    object-fit: contain;
+
+    filter: drop-shadow(
+            0 4px 5px rgba(0,0,0,0.12)
+    );
+}
+
+
+/* ================================
+   TITLE
+================================ */
+
+.login-title {
+    text-align: center;
+
+    color: #075b9d;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    margin: 8px 0 5px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.login-subtitle {
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin-bottom: 24px;
+
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ================================
+   INPUT
+================================ */
+
+.form-group {
+    margin-bottom: 17px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #263f55;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+
+    height: 46px;
+
+    padding: 10px 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(130, 160, 180, 0.35);
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.62);
+
+    color: #1e293b;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: all 0.25s ease;
+
+    backdrop-filter: blur(5px);
+}
+
+.form-group input::placeholder {
+    color: #94a3b8;
+}
+
+.form-group input:focus {
+    background: rgba(255, 255, 255, 0.85);
+
+    border-color: #0875b9;
+
+    box-shadow:
+            0 0 0 3px rgba(8, 117, 185, 0.12),
+            0 5px 15px rgba(8, 117, 185, 0.08);
+}
+
+
+/* ================================
+   BUTTON
+================================ */
+
+.login-submit {
+    width: 100%;
+
+    height: 47px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+            135deg,
+            #0878bd,
+            #075c98
+    );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+    position: relative;
+    z-index: 1;
+
+    box-shadow:
+            0 8px 18px rgba(7, 92, 152, 0.22);
+}
+
+.login-submit:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+            0 12px 25px rgba(7, 92, 152, 0.3);
+}
+
+.login-submit:active {
+    transform: translateY(0);
+}
+
+
+
+
+/* ================================
+   MESSAGE
+================================ */
+
+.login-message {
+    border-radius: 10px;
+
+    padding: 10px 12px;
+
+    font-size: 14px;
+
+    margin-bottom: 15px;
+}
+
+.login-message.error {
+    background: rgba(254, 226, 226, 0.8);
+
+    color: #b91c1c;
+
+    border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.login-message.success {
+    background: rgba(220, 252, 231, 0.8);
+
+    color: #15803d;
+
+    border: 1px solid rgba(34, 197, 94, 0.15);
+}
+
+/* ================================
+   LINKS
+================================ */
+
+.register-link,
+.back-home {
+    position: relative;
+    z-index: 1;
+
+    text-align: center;
+}
+
+.register-link {
+    margin-top: 18px;
+}
+
+.back-home {
+    margin-top: 12px;
+}
+
+.register-link a {
+    color: #0875b9;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.back-home a {
+    color: #64748b;
+
+    text-decoration: none;
+}
+
+.back-home a:hover {
+    color: #0875b9;
+}
+.login-page::before,
+.register-page::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    left: 10%;
+
+    top: 20%;
+
+    background: rgba(8, 117, 185, 0.10);
+
+    border-radius: 50%;
+
+    filter: blur(30px);
+
+    pointer-events: none;
+}
+
+.login-page,
+.register-page {
+    position: relative;
+    overflow: hidden;
+}
+
+/* =========================
+   BACK HOME
+========================= */
+
+.back-home {
+    text-align: center;
+
+    margin-top: 12px;
+}
+
+.back-home a {
+    color: #666;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.back-home a:hover {
+    color: #0868a8;
+}
+
+
+/* =========================
+   MÀN HÌNH NHỎ
+========================= */
+
+@media (max-height: 750px) {
+
+    .login-page {
+        padding: 15px 20px;
+    }
+
+    .login-card {
+        padding: 22px 32px;
+    }
+
+    .login-logo {
+        margin-bottom: 5px;
+    }
+
+    .login-logo img {
+        width: 60px;
+        height: 50px;
+    }
+
+    .login-title {
+        font-size: 24px;
+    }
+
+    .login-subtitle {
+        margin-bottom: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .register-link {
+        margin-top: 10px;
+    }
+
+    .back-home {
+        margin-top: 8px;
+    }
+}
+/* =========================================
+   FIX LOGIN - HIỂN THỊ TRỌN TRONG 1 MÀN HÌNH
+========================================= */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+
+/* Toàn bộ trang */
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Phần login chiếm phần còn lại */
+
+.login-page {
+    flex: 1;
+
+    min-height: 0;
+
+    padding: 15px 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+
+/* Card nhỏ lại một chút */
+
+.login-card {
+    width: 420px;
+
+    padding: 22px 36px;
+
+    box-sizing: border-box;
+}
+
+
+/* Logo */
+
+.login-logo {
+    margin-bottom: 5px;
+}
+
+.login-logo img {
+    width: 60px;
+    height: 50px;
+}
+
+
+/* Tiêu đề */
+
+.login-title {
+    font-size: 25px;
+
+    margin: 5px 0;
+}
+
+.login-subtitle {
+    margin-bottom: 14px;
+}
+
+
+/* Input */
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    height: 42px;
+
+    box-sizing: border-box;
+}
+
+
+/* Button */
+
+.login-submit {
+    height: 43px;
+}
+
+
+/* Link */
+
+.register-link {
+    margin-top: 12px;
+}
+
+.back-home {
+    margin-top: 7px;
+}
+
+
+/* Footer */
+
+.footer {
+    flex-shrink: 0;
+
+    padding: 18px 20px;
+
+    box-sizing: border-box;
+}
+/* =========================================
+   GIỚI HẠN CHIỀU CAO HEADER
+========================================= */
+
+.header-top {
+    padding: 6px 0;
+}
+
+.logo {
+    width: 80px;
+    height: 65px;
+}
+
+
+/* Tên trường */
+
+.school-info h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.school-info h2 {
+    font-size: 18px;
+    margin: 2px 0;
+}
+
+.school-info p {
+    font-size: 15px;
+    margin: 2px 0;
+}
+
+
+/* Navbar */
+
+.nav-item {
+    padding: 12px 22px;
+}
+
+.login-button {
+    padding: 12px 20px;
+}
+
+
+/* Footer */
+
+.footer {
+    min-height: 82px;
+
+    padding: 15px 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

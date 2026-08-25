@@ -1,0 +1,818 @@
+/* ================================
+   GLASS REGISTER
+================================ */
+
+.register-page {
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    background:
+            radial-gradient(
+                    circle at 20% 20%,
+                    rgba(0, 115, 190, 0.18),
+                    transparent 35%
+            ),
+            radial-gradient(
+                    circle at 80% 80%,
+                    rgba(255, 170, 0, 0.12),
+                    transparent 35%
+            ),
+            linear-gradient(
+                    135deg,
+                    #e8f4fb,
+                    #f5f9fc
+            );
+}
+
+/* ================================
+   GLASS CARD
+================================ */
+
+.register-card {
+    width: 450px;
+
+    padding: 28px 38px;
+
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.58);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.75);
+
+    border-radius: 22px;
+
+    box-shadow:
+            0 20px 50px rgba(0, 70, 120, 0.15),
+            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* Ánh sáng mặt kính */
+
+.register-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -100px;
+    right: -70px;
+
+    background: rgba(255, 255, 255, 0.45);
+
+    border-radius: 50%;
+
+    filter: blur(5px);
+
+    pointer-events: none;
+}
+
+/* ================================
+   LOGO
+================================ */
+
+.register-logo {
+    text-align: center;
+
+    margin-bottom: 10px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.register-logo img {
+    width: 65px;
+    height: 55px;
+
+    object-fit: contain;
+
+    filter: drop-shadow(
+            0 4px 5px rgba(0,0,0,0.12)
+    );
+}
+
+
+/* ================================
+   TITLE
+================================ */
+
+.register-title {
+    text-align: center;
+
+    color: #075b9d;
+
+    font-size: 27px;
+
+    margin: 8px 0 5px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.register-subtitle {
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin-bottom: 20px;
+
+    position: relative;
+    z-index: 1;
+}
+
+
+
+/* ================================
+   FORM
+================================ */
+
+.register-card .form-group {
+    margin-bottom: 12px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.register-card .form-group label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #263f55;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.register-card .form-group input {
+    width: 100%;
+
+    height: 43px;
+
+    padding: 9px 13px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(130, 160, 180, 0.35);
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.62);
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: all 0.25s ease;
+}
+
+.register-card .form-group input:focus {
+    background: rgba(255, 255, 255, 0.85);
+
+    border-color: #0875b9;
+
+    box-shadow:
+            0 0 0 3px rgba(8, 117, 185, 0.12);
+}
+
+/* ================================
+   BUTTON
+================================ */
+
+.register-submit {
+    width: 100%;
+
+    height: 45px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+            135deg,
+            #0878bd,
+            #075c98
+    );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+    position: relative;
+    z-index: 1;
+
+    box-shadow:
+            0 8px 18px rgba(7, 92, 152, 0.22);
+}
+
+.register-submit:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+            0 12px 25px rgba(7, 92, 152, 0.3);
+}
+
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.register-message {
+    display: none;
+
+    margin-bottom: 10px;
+
+    padding: 9px;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+}
+
+.register-message.error {
+    display: block;
+
+    background: #fee2e2;
+
+    color: #b91c1c;
+}
+
+.register-message.success {
+    display: block;
+
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+
+/* ================================
+   LINKS
+================================ */
+
+.login-link,
+.register-card .back-home {
+    position: relative;
+
+    z-index: 1;
+
+    text-align: center;
+}
+
+.login-link {
+    margin-top: 15px;
+}
+
+.login-link a {
+    color: #0875b9;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.register-card .back-home {
+    margin-top: 8px;
+}
+
+.register-card .back-home a {
+    color: #64748b;
+
+    text-decoration: none;
+}
+
+.register-card .back-home a:hover {
+    color: #0875b9;
+}
+.login-page::before,
+.register-page::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    left: 10%;
+
+    top: 20%;
+
+    background: rgba(8, 117, 185, 0.10);
+
+    border-radius: 50%;
+
+    filter: blur(30px);
+
+    pointer-events: none;
+}
+
+.login-page,
+.register-page {
+    position: relative;
+    overflow: hidden;
+}
+/* =========================
+   BACK HOME
+========================= */
+
+.back-home {
+    text-align: center;
+
+    margin-top: 7px;
+}
+
+.back-home a {
+    color: #666;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.back-home a:hover {
+    color: #0868a8;
+}
+
+
+/* =========================
+   KHÔNG CHO CUỘN
+========================= */
+
+html,
+body {
+    height: 100%;
+
+    margin: 0;
+
+    overflow: hidden;
+}
+
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header-top {
+    padding: 6px 0;
+}
+
+.logo {
+    width: 80px;
+
+    height: 65px;
+}
+
+.school-info h1 {
+    font-size: 20px;
+
+    margin: 0;
+}
+
+.school-info h2 {
+    font-size: 18px;
+
+    margin: 2px 0;
+}
+
+.school-info p {
+    font-size: 15px;
+
+    margin: 2px 0;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.nav-item {
+    padding: 12px 22px;
+}
+
+.login-button {
+    padding: 12px 20px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    min-height: 82px;
+
+    padding: 15px 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    flex-shrink: 0;
+}
+/* =========================================
+   FIX REGISTER - VỪA 1 MÀN HÌNH
+========================================= */
+
+.register-page {
+    flex: 1;
+    min-height: 0;
+
+    padding: 10px 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    position: relative;
+    overflow: hidden;
+
+    /* Nền glass */
+    background:
+            radial-gradient(
+                    circle at 15% 40%,
+                    rgba(0, 130, 210, 0.20),
+                    transparent 32%
+            ),
+            radial-gradient(
+                    circle at 85% 60%,
+                    rgba(255, 180, 50, 0.13),
+                    transparent 32%
+            ),
+            linear-gradient(
+                    135deg,
+                    #eaf6fc,
+                    #f8fafc
+            );
+}
+
+
+/* =========================================
+   CARD KÍNH - NHỎ GỌN HƠN
+========================================= */
+
+.register-card {
+    width: 450px;
+    max-width: 90vw;
+
+    padding: 20px 34px;
+
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.52);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+
+    border-radius: 22px;
+
+    box-shadow:
+            0 20px 50px rgba(0, 70, 120, 0.16),
+            inset 0 1px 1px rgba(255, 255, 255, 0.9);
+
+    position: relative;
+
+    z-index: 2;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.register-logo {
+    margin-bottom: 3px;
+}
+
+.register-logo img {
+    width: 52px;
+    height: 45px;
+}
+
+
+/* =========================================
+   TIÊU ĐỀ
+========================================= */
+
+.register-title {
+    font-size: 25px;
+
+    margin: 3px 0 2px;
+}
+
+.register-subtitle {
+    font-size: 13px;
+
+    margin-bottom: 12px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.register-card .form-group {
+    margin-bottom: 8px;
+}
+
+.register-card .form-group label {
+    font-size: 14px;
+
+    margin-bottom: 4px;
+}
+
+.register-card .form-group input {
+    height: 38px;
+
+    padding: 7px 12px;
+
+    font-size: 14px;
+
+    border-radius: 9px;
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.register-submit {
+    height: 42px;
+
+    margin-top: 4px;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.register-message {
+    margin-bottom: 7px;
+
+    padding: 7px 9px;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   LINK
+========================================= */
+
+.login-link {
+    margin-top: 9px;
+}
+
+.register-card .back-home {
+    margin-top: 5px;
+}
+
+.register-card .back-home a,
+.login-link a {
+    font-size: 13px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    min-height: 70px;
+
+    padding: 10px 20px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   MÀN HÌNH THẤP
+========================================= */
+
+@media (max-height: 800px) {
+
+    .register-page {
+        padding: 5px 15px;
+    }
+
+    .register-card {
+        padding: 15px 30px;
+    }
+
+    .register-logo img {
+        width: 45px;
+        height: 38px;
+    }
+
+    .register-title {
+        font-size: 23px;
+    }
+
+    .register-subtitle {
+        margin-bottom: 8px;
+    }
+
+    .register-card .form-group {
+        margin-bottom: 6px;
+    }
+
+    .register-card .form-group input {
+        height: 35px;
+    }
+
+    .register-submit {
+        height: 39px;
+    }
+
+    .footer {
+        min-height: 60px;
+        padding: 8px 15px;
+    }
+}
+/* =========================================
+   REGISTER - FIX TRÀN MÀN HÌNH
+========================================= */
+
+.register-page {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+
+    padding: 5px 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+
+/* CARD */
+.register-card {
+    width: 450px;
+    max-width: 90vw;
+
+    /* QUAN TRỌNG: giảm chiều cao */
+    padding: 10px 34px;
+
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.45);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    border-radius: 20px;
+
+    box-shadow:
+            0 15px 40px rgba(0, 70, 120, 0.14),
+            inset 0 1px 1px rgba(255,255,255,0.8);
+
+    position: relative;
+    z-index: 2;
+
+    overflow: hidden;
+}
+
+
+/* LOGO */
+.register-logo {
+    margin-bottom: 0;
+}
+
+.register-logo img {
+    width: 42px;
+    height: 36px;
+}
+
+
+/* TITLE */
+.register-title {
+    font-size: 23px;
+    margin: 1px 0 0;
+}
+
+.register-subtitle {
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+
+/* FORM */
+.register-card .form-group {
+    margin-bottom: 5px;
+}
+
+.register-card .form-group label {
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+.register-card .form-group input {
+    height: 32px;
+
+    padding: 5px 11px;
+
+    font-size: 13px;
+
+    border-radius: 8px;
+}
+
+
+/* BUTTON */
+.register-submit {
+    height: 36px;
+
+    margin-top: 3px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+
+/* LINK */
+.login-link {
+    margin-top: 5px;
+}
+
+.register-card .back-home {
+    margin-top: 2px;
+}
+
+.login-link a,
+.register-card .back-home a {
+    font-size: 12px;
+}
+
+
+/* MESSAGE */
+.register-message {
+    margin-bottom: 5px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
