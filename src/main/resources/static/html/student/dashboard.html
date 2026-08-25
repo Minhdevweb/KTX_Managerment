@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard - KTX</title>
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css">
+
+</head>
+
+<body data-require-login="true">
+<header class="header">
+    <div class="header-top">
+        <div class="logo-area">
+            <img
+                    class="logo"
+                    src="/images/logo-vku.jpg"
+                    alt="Logo VKU">
+
+            <div class="school-info">
+                <h1>
+                    TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN
+                </h1>
+
+                <h2>
+                    VÀ TRUYỀN THÔNG VIỆT - HÀN
+                </h2>
+
+                <p>
+                    HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <a
+                    href="/html/index.html"
+                    class="nav-item">
+                TRANG CHỦ
+            </a>
+
+            <span class="nav-item">
+                SINH VIÊN
+            </span>
+
+            <div class="auth-area">
+
+                <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser">
+                    </span>
+
+                    <button
+                            onclick="logout(false)"
+                            class="logout-button">
+                        ĐĂNG XUẤT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="dashboard">
+
+    <div class="dashboard-card">
+
+        <h2>
+             STUDENT DASHBOARD
+        </h2>
+
+        <p>
+            Xin chào,
+            <strong id="username"></strong>
+        </p>
+
+        <div class="dashboard-content">
+
+            <div class="dashboard-item">
+                <span>Thông tin phòng</span>
+            </div>
+
+            <div class="dashboard-item">
+                <span>Đăng ký KTX</span>
+            </div>
+
+            <div class="dashboard-item">
+                <span>Thông tin cá nhân</span>
+            </div>
+
+            <div class="dashboard-item">
+                <span>Thông báo</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script src="/js/auth.js"></script>
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            document.getElementById(
+                "username"
+            ).textContent = getUsername();
+
+        }
+    );
+</script>
+</body>
+</html>

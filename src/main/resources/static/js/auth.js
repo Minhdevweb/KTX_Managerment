@@ -16,6 +16,12 @@ function getUsername() {
     return localStorage.getItem("username");
 }
 
+// LẤY ROLE
+
+function getRole() {
+    return localStorage.getItem("role");
+}
+
 // KIỂM TRA JWT
 
 function isTokenValid() {
@@ -34,14 +40,16 @@ function isTokenValid() {
         );
 
         // exp của JWT tính bằng giây
-        const expirationTime = payload.exp * 1000;
+        const expirationTime =
+            payload.exp * 1000;
 
         return Date.now() < expirationTime;
 
     } catch (error) {
 
         console.error(
-            "JWT không hợp lệ:", error
+            "JWT không hợp lệ:",
+            error
         );
 
         return false;
@@ -52,19 +60,38 @@ function isTokenValid() {
 
 function logout(expired = false) {
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    // Nếu người dùng tự bấm ĐĂNG XUẤT
+    if (!expired) {
 
-    if (logoutTimer) {
-        clearTimeout(logoutTimer);
+        const confirmLogout = confirm(
+            "Bạn có chắc chắn muốn đăng xuất không?"
+        );
+
+        // Người dùng chọn Hủy
+        if (!confirmLogout) {
+            return;
+        }
     }
 
+    // Xóa thông tin đăng nhập
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userId");
+
+    // Hủy timer nếu đang có
+    if (logoutTimer) {
+        clearTimeout(logoutTimer);
+        logoutTimer = null;
+    }
+
+
+    // Chuyển về Login
     if (expired) {
 
         window.location.href = "/html/login.html?expired=true";
 
     } else {
-
         window.location.href = "/html/login.html";
     }
 }
@@ -85,18 +112,15 @@ function startTokenTimer() {
             atob(token.split(".")[1])
         );
 
-        const expirationTime =
-            payload.exp * 1000;
+        const expirationTime = payload.exp * 1000;
 
-        const timeLeft =
-            expirationTime - Date.now();
+        const timeLeft = expirationTime - Date.now();
 
 
         // Token đã hết hạn
         if (timeLeft <= 0) {
 
             logout(true);
-
             return;
         }
 
@@ -110,20 +134,16 @@ function startTokenTimer() {
         // Đặt timer đến đúng thời điểm hết hạn
         logoutTimer = setTimeout(
             function () {
-
                 logout(true);
-
             },
             timeLeft
         );
 
     } catch (error) {
-
         console.error(
             "Không thể đọc JWT:",
             error
         );
-
         logout(true);
     }
 }
@@ -133,36 +153,16 @@ function startTokenTimer() {
 function requireLogin() {
 
     if (!isTokenValid()) {
-
         logout(true);
-
         return false;
     }
 
     // Token vẫn còn hạn
     startTokenTimer();
-
     return true;
 }
 
-// CHẠY KHI TRANG LOAD
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        updateAuthUI();
-
-        if (
-            document.body.dataset.requireLogin === "true"
-        ) {
-            requireLogin();
-        }
-
-    }
-);
-
-// HIỂN THỊ TRẠNG THÁI ĐĂNG NHẬP
+// CẬP NHẬT THANH NAV
 
 function updateAuthUI() {
 
@@ -175,31 +175,82 @@ function updateAuthUI() {
     const token = getToken();
     const username = getUsername();
 
-    // Chưa đăng nhập
+    // CHƯA ĐĂNG NHẬP
+
     if (!token || !isTokenValid()) {
 
         authArea.innerHTML = `
-            <a href="/html/login.html" class="login-button">
-                ↪ ĐĂNG NHẬP
+            <a
+                href="/html/login.html"
+                class="login-button"
+            >
+                ĐĂNG NHẬP
             </a>
         `;
         return;
     }
 
-    // Đã đăng nhập
+    // ĐÃ ĐĂNG NHẬP
+
     authArea.innerHTML = `
         <div class="user-menu">
 
             <span class="welcome-user">
-                👤 Xin chào, ${username}
+                 Xin chào, ${username}
             </span>
 
             <button
                 class="logout-button"
                 onclick="logout(false)"
             >
-                🚪 ĐĂNG XUẤT
+                 ĐĂNG XUẤT
             </button>
+
         </div>
     `;
 }
+
+// ẨN / HIỆN NÚT ĐĂNG NHẬP HỆ THỐNG
+
+function updateHeroButton() {
+
+    const heroLoginButton = document.getElementById("heroLoginButton");
+
+    if (!heroLoginButton) {
+        return;
+    }
+
+
+    // Đã đăng nhập
+    if (isTokenValid()) {
+        heroLoginButton.style.display = "none";
+    }
+
+    // Chưa đăng nhập
+    else {
+        heroLoginButton.style.display =
+            "inline-block";
+    }
+}
+
+// CHẠY KHI TRANG LOAD
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        // Cập nhật thanh Navbar
+        updateAuthUI();
+
+        // Cập nhật nút Login trong Banner
+        updateHeroButton();
+
+
+        // Nếu trang yêu cầu đăng nhập
+        if (
+            document.body.dataset.requireLogin === "true"
+        ) {
+            requireLogin();
+        }
+    }
+);

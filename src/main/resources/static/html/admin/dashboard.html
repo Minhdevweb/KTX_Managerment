@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard - KTX</title>
+
+  <!-- CSS CHUNG -->
+  <link
+          rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+<body data-require-login="true">
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+
+  <div class="header-top">
+
+    <div class="logo-area">
+
+      <img
+              class="logo"
+              src="/images/logo-vku.jpg"
+              alt="Logo VKU">
+
+
+      <div class="school-info">
+
+        <h1>
+          TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN
+        </h1>
+
+        <h2>
+          VÀ TRUYỀN THÔNG VIỆT - HÀN
+        </h2>
+
+        <p>
+          HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================= NAVBAR ================= -->
+
+  <nav class="navbar">
+
+    <div class="nav-container">
+
+      <!-- Trang chủ -->
+      <a
+              href="/html/index.html"
+              class="nav-item">
+
+        TRANG CHỦ
+
+      </a>
+
+      <!-- Admin -->
+
+      <span class="nav-item">
+                QUẢN TRỊ VIÊN
+            </span>
+
+      <!-- Khu vực đăng nhập -->
+
+      <div class="auth-area">
+        <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser">
+                    </span>
+
+
+          <button
+                  onclick="logout(false)"
+                  class="logout-button">
+
+            ĐĂNG XUẤT
+
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= ADMIN DASHBOARD ================= -->
+
+<main class="dashboard">
+
+  <div class="dashboard-card">
+
+    <h2>
+      ADMIN DASHBOARD
+    </h2>
+
+    <p>
+
+      Xin chào quản trị viên,
+      <strong id="username"></strong>
+    </p>
+
+    <div class="dashboard-content">
+
+      <!-- Quản lý sinh viên -->
+      <div class="dashboard-item">
+
+                <span>
+                    Quản lý sinh viên
+                </span>
+      </div>
+
+
+      <!-- Quản lý phòng -->
+
+      <div class="dashboard-item">
+                <span>
+                    Quản lý phòng
+                </span>
+      </div>
+
+
+      <!-- Quản lý đăng ký -->
+      <div class="dashboard-item">
+
+                <span>
+                    Quản lý đăng ký KTX
+                </span>
+      </div>
+      <!-- Thống kê -->
+
+      <div class="dashboard-item">
+
+                <span>
+                    Thống kê
+                </span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ================= AUTH JS ================= -->
+
+<script src="/js/auth.js"></script>
+
+<script>
+
+  document.addEventListener(
+          "DOMContentLoaded",
+          function () {
+            const username = getUsername();
+
+            // Hiển thị username trong Dashboard
+
+            document.getElementById("username").textContent = username;
+
+
+            // Hiển thị username trên Navbar
+
+            document.getElementById("welcomeUser").textContent = "Xin chào, " + username;
+          }
+  );
+</script>
+</body>
+</html>
