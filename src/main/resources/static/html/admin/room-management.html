@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Quản lý phòng - KTX</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin/room-management.css">
+</head>
+
+<body data-require-login="true">
+
+<header class="header">
+
+  <div class="header-top">
+    <div class="logo-area">
+
+      <img
+              class="logo"
+              src="/images/logo-vku.jpg"
+              alt="Logo VKU"
+      >
+
+      <div class="school-info">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h1>
+        <h2>VÀ TRUYỀN THÔNG VIỆT - HÀN</h2>
+        <p>HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ</p>
+      </div>
+
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+
+      <a href="/html/index.html" class="nav-item">
+        TRANG CHỦ
+      </a>
+
+      <a href="/html/admin/dashboard.html" class="nav-item">
+        QUẢN TRỊ VIÊN
+      </a>
+
+      <div class="auth-area">
+        <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser"
+                    ></span>
+
+          <button
+                  onclick="logout(false)"
+                  class="logout-button"
+          >
+            ĐĂNG XUẤT
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+</header>
+
+<main class="room-management">
+
+  <div class="room-card">
+
+    <div class="room-header">
+      <div>
+        <h2>QUẢN LÝ PHÒNG</h2>
+        <p>Quản lý tòa nhà và phòng ký túc xá</p>
+      </div>
+
+      <a
+              href="/html/admin/dashboard.html"
+              class="back-button"
+      >
+        Quay lại
+      </a>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <section class="building-section">
+
+      <h3>Danh sách tòa nhà</h3>
+
+      <div class="building-form">
+
+        <input
+                type="text"
+                id="buildingCode"
+                placeholder="Mã tòa nhà"
+        >
+
+        <input
+                type="text"
+                id="buildingName"
+                placeholder="Tên tòa nhà"
+        >
+
+        <input
+                type="text"
+                id="buildingDescription"
+                placeholder="Mô tả"
+        >
+
+        <button
+                type="button"
+                id="addBuildingButton"
+        >
+          Thêm tòa nhà
+        </button>
+
+      </div>
+
+      <div
+              id="buildingList"
+              class="building-list"
+      ></div>
+
+    </section>
+
+    <section class="room-section">
+
+      <h3>Danh sách phòng</h3>
+
+      <div class="room-form">
+
+        <select id="buildingSelect">
+          <option value="">
+            -- Chọn tòa nhà --
+          </option>
+        </select>
+
+        <input
+                type="text"
+                id="roomNumber"
+                placeholder="Số phòng"
+        >
+
+        <input
+                type="number"
+                id="roomCapacity"
+                placeholder="Sức chứa"
+                min="1"
+        >
+
+        <select id="roomStatus">
+          <option value="AVAILABLE">
+            AVAILABLE
+          </option>
+
+          <option value="FULL">
+            FULL
+          </option>
+
+          <option value="MAINTENANCE">
+            MAINTENANCE
+          </option>
+        </select>
+
+        <button
+                type="button"
+                id="addRoomButton"
+        >
+          Thêm phòng
+        </button>
+
+      </div>
+
+      <div
+              id="roomList"
+              class="room-list"
+      ></div>
+
+    </section>
+
+  </div>
+
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/admin/room-management.js"></script>
+
+</body>
+</html>

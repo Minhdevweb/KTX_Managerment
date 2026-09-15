@@ -1,0 +1,198 @@
+.room-management {
+    padding: 40px 20px;
+    min-height: 600px;
+    background: #f5f7fa;
+}
+
+.room-card {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.room-header h2 {
+    margin: 0 0 8px;
+    color: #075b9d;
+}
+
+.room-header p {
+    margin: 0;
+    color: #666;
+}
+
+.back-button {
+    padding: 10px 18px;
+    color: #ffffff;
+    background: #075b9d;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background: #0868a8;
+}
+
+.building-section,
+.room-section {
+    margin-top: 30px;
+}
+
+.building-section h3,
+.room-section h3 {
+    color: #075b9d;
+    border-bottom: 2px solid #e67e22;
+    padding-bottom: 10px;
+}
+
+.building-form,
+.room-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.building-form input,
+.room-form input,
+.room-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d6dce2;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.building-form button,
+.room-form button {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    background: #e67e22;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.building-form button:hover,
+.room-form button:hover {
+    background: #f39c12;
+}
+
+.building-list,
+.room-list {
+    display: grid;
+    gap: 12px;
+}
+
+.building-item,
+.room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    border: 1px solid #e1e5e9;
+    border-left: 5px solid #0868a8;
+    border-radius: 6px;
+    background: #ffffff;
+}
+
+.building-info,
+.room-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.building-info strong,
+.room-info strong {
+    color: #075b9d;
+}
+
+.building-info span,
+.room-info span {
+    color: #555;
+}
+
+.item-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.item-actions button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.delete-button {
+    background: #c0392b;
+}
+
+.delete-button:hover {
+    background: #e74c3c;
+}
+
+.message {
+    display: none;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background: #eaf4ff;
+    color: #075b9d;
+}
+
+.message.error {
+    display: block;
+    background: #fdecea;
+    color: #c0392b;
+}
+
+.message.success {
+    display: block;
+    background: #eaf7ed;
+    color: #218838;
+}
+
+@media (max-width: 900px) {
+    .building-form,
+    .room-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .room-card {
+        padding: 20px;
+    }
+
+    .room-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .building-form,
+    .room-form {
+        grid-template-columns: 1fr;
+    }
+
+    .building-item,
+    .room-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
