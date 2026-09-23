@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quản lý sinh viên - KTX</title>
+
+    <!-- CSS CHUNG -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- CSS RIÊNG -->
+    <link rel="stylesheet" href="/css/admin/student-management.css">
+</head>
+
+<body data-require-login="true">
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="header-top">
+
+        <div class="logo-area">
+
+            <img
+                    class="logo"
+                    src="/images/logo-vku.jpg"
+                    alt="Logo VKU"
+            >
+
+            <div class="school-info">
+                <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h1>
+                <h2>VÀ TRUYỀN THÔNG VIỆT - HÀN</h2>
+                <p>HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="/html/index.html" class="nav-item">
+                TRANG CHỦ
+            </a>
+
+            <a href="/html/admin/dashboard.html" class="nav-item">
+                QUẢN TRỊ VIÊN
+            </a>
+
+            <div class="auth-area">
+
+                <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser">
+                    </span>
+
+                    <button
+                            onclick="logout(false)"
+                            class="logout-button">
+                        ĐĂNG XUẤT
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- ================= QUẢN LÝ SINH VIÊN ================= -->
+
+<main class="student-management">
+
+    <div class="student-card">
+
+        <div class="student-header">
+
+            <div>
+                <h2>QUẢN LÝ SINH VIÊN</h2>
+                <p>Quản lý tài khoản và thông tin sinh viên ký túc xá</p>
+            </div>
+
+            <a
+                    href="/html/admin/dashboard.html"
+                    class="back-button">
+                Quay lại
+            </a>
+
+        </div>
+
+
+        <!-- THÔNG BÁO -->
+
+        <div
+                id="message"
+                class="message">
+        </div>
+
+
+        <!-- ================= THÊM SINH VIÊN ================= -->
+
+        <section class="student-section">
+
+            <h3>Thêm sinh viên</h3>
+
+            <div class="student-form">
+
+                <input
+                        type="text"
+                        id="username"
+                        placeholder="Tên đăng nhập"
+                        autocomplete="off"
+                >
+
+                <input
+                        type="password"
+                        id="password"
+                        placeholder="Mật khẩu"
+                        autocomplete="new-password"
+                >
+
+                <input
+                        type="email"
+                        id="email"
+                        placeholder="Email"
+                        autocomplete="off"
+                >
+
+                <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Họ và tên"
+                        autocomplete="off"
+                >
+
+                <input
+                        type="text"
+                        id="phone"
+                        placeholder="Số điện thoại"
+                        autocomplete="off"
+                >
+
+                <button
+                        type="button"
+                        id="addStudentButton">
+                    Thêm sinh viên
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= DANH SÁCH SINH VIÊN ================= -->
+
+        <section class="student-section">
+
+            <h3>Danh sách sinh viên</h3>
+
+            <div
+                    id="studentList"
+                    class="student-list">
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- ================= AUTH JS ================= -->
+
+<script src="/js/auth.js"></script>
+
+<!-- JS QUẢN LÝ SINH VIÊN -->
+<script src="/js/admin/student-management.js"></script>
+
+</body>
+
+</html>

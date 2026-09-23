@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Quản lý giường - KTX</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin/bed-management.css">
+</head>
+
+<body data-require-login="true">
+
+<header class="header">
+
+  <div class="header-top">
+
+    <div class="logo-area">
+
+      <img
+              class="logo"
+              src="/images/logo-vku.jpg"
+              alt="Logo VKU"
+      >
+
+      <div class="school-info">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h1>
+        <h2>VÀ TRUYỀN THÔNG VIỆT - HÀN</h2>
+        <p>HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <nav class="navbar">
+
+    <div class="nav-container">
+
+      <a href="/html/index.html" class="nav-item">
+        TRANG CHỦ
+      </a>
+
+      <a href="/html/admin/dashboard.html" class="nav-item">
+        QUẢN TRỊ VIÊN
+      </a>
+
+      <div class="auth-area">
+
+        <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser">
+                    </span>
+
+          <button
+                  onclick="logout(false)"
+                  class="logout-button">
+            ĐĂNG XUẤT
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+</header>
+
+<main class="bed-management">
+
+  <div class="bed-card">
+
+    <div class="bed-header">
+
+      <div>
+        <h2>QUẢN LÝ GIƯỜNG</h2>
+        <p>Quản lý giường trong từng phòng ký túc xá</p>
+      </div>
+
+      <div class="bed-header-actions">
+
+        <a
+                href="/html/admin/room-management.html"
+                class="back-button">
+          ← Quản lý phòng
+        </a>
+
+        <a
+                href="/html/admin/dashboard.html"
+                class="back-button">
+          Quay lại
+        </a>
+
+      </div>
+
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <section class="bed-section">
+
+      <h3>Chọn phòng</h3>
+
+      <div class="bed-select-form">
+
+        <div class="form-group">
+          <label for="buildingSelect">
+            Tòa nhà
+          </label>
+
+          <select id="buildingSelect">
+            <option value="">
+              -- Chọn tòa nhà --
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="roomSelect">
+            Phòng
+          </label>
+
+          <select id="roomSelect" disabled>
+            <option value="">
+              -- Chọn phòng --
+            </option>
+          </select>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="bed-section">
+
+      <h3>Thêm giường</h3>
+
+      <div class="bed-form">
+
+        <div class="form-group">
+          <label for="bedNumber">
+            Số giường
+          </label>
+
+          <input
+                  type="text"
+                  id="bedNumber"
+                  placeholder="Ví dụ: B01">
+        </div>
+
+        <div class="form-group">
+          <label for="bedStatus">
+            Trạng thái
+          </label>
+
+          <select id="bedStatus">
+            <option value="AVAILABLE">
+              Trống
+            </option>
+
+            <option value="OCCUPIED">
+              Đang sử dụng
+            </option>
+
+            <option value="MAINTENANCE">
+              Bảo trì
+            </option>
+          </select>
+        </div>
+
+        <button
+                type="button"
+                id="addBedButton"
+                class="primary-button">
+          Thêm giường
+        </button>
+
+      </div>
+
+    </section>
+
+    <section class="bed-section">
+
+      <div class="section-title-row">
+
+        <h3>Danh sách giường</h3>
+
+        <span id="bedCount" class="count-label">
+                    0 giường
+                </span>
+
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Số giường</th>
+            <th>Trạng thái</th>
+            <th>Phòng</th>
+            <th>Thao tác</th>
+          </tr>
+          </thead>
+
+          <tbody id="bedTableBody">
+
+          <tr>
+            <td colspan="5" class="empty-row">
+              Vui lòng chọn phòng để xem giường.
+            </td>
+          </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/admin/bed-management.js"></script>
+
+</body>
+</html>

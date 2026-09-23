@@ -101,6 +101,19 @@ public class BedController {
                     .body("Không tìm thấy phòng!");
         }
 
+// Kiểm tra số lượng giường theo sức chứa phòng
+        int currentBedCount = bedRepository.findByRoomId(roomId).size();
+        int roomCapacity = room.get().getCapacity();
+
+        if (currentBedCount >= roomCapacity) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(
+                            "Phòng đã đạt số lượng giường tối đa! "
+                                    + "Sức chứa: " + roomCapacity
+                                    + ", số giường hiện tại: " + currentBedCount
+                    );
+        }
+
         String bedNumber = bed.getBedNumber().trim();
 
         if (bedRepository.existsByRoomIdAndBedNumber(
