@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Đăng ký KTX - KTX</title>
+
+    <!-- CSS CHUNG -->
+    <link
+            rel="stylesheet"
+            href="/css/style.css"
+    >
+
+    <!-- CSS RIÊNG -->
+    <link
+            rel="stylesheet"
+            href="/css/student/registration.css"
+    >
+
+</head>
+
+<body data-require-login="true">
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="header-top">
+
+        <div class="logo-area">
+
+            <img
+                    class="logo"
+                    src="/images/logo-vku.jpg"
+                    alt="Logo VKU"
+            >
+
+            <div class="school-info">
+
+                <h1>
+                    TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN
+                </h1>
+
+                <h2>
+                    VÀ TRUYỀN THÔNG VIỆT - HÀN
+                </h2>
+
+                <p>
+                    HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a
+                    href="/html/index.html"
+                    class="nav-item"
+            >
+                TRANG CHỦ
+            </a>
+
+            <a
+                    href="/html/student/dashboard.html"
+                    class="nav-item"
+            >
+                SINH VIÊN
+            </a>
+
+            <div class="auth-area">
+
+                <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser"
+                    ></span>
+
+                    <button
+                            onclick="logout(false)"
+                            class="logout-button"
+                    >
+                        ĐĂNG XUẤT
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- ================= ĐĂNG KÝ KTX ================= -->
+
+<main class="registration-page">
+
+    <div class="registration-card">
+
+        <div class="registration-header">
+
+            <div>
+
+                <h2>
+                    ĐĂNG KÝ KÝ TÚC XÁ
+                </h2>
+
+                <p>
+                    Chọn phòng và giường còn trống để đăng ký
+                </p>
+
+            </div>
+
+            <a
+                    href="/html/student/dashboard.html"
+                    class="back-button"
+            >
+                Quay lại
+            </a>
+
+        </div>
+
+
+        <!-- THÔNG BÁO -->
+
+        <div
+                id="message"
+                class="message"
+        ></div>
+
+
+        <!-- ================= CHỌN PHÒNG ================= -->
+
+        <section class="registration-section">
+
+            <h3>
+                1. Chọn phòng
+            </h3>
+
+            <div class="room-list" id="roomList">
+
+                <div class="loading">
+                    Đang tải danh sách phòng...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CHỌN GIƯỜNG ================= -->
+
+        <section class="registration-section">
+
+            <h3>
+                2. Chọn giường
+            </h3>
+
+            <div
+                    id="selectedRoomInfo"
+                    class="selected-room"
+            >
+                Vui lòng chọn phòng trước
+            </div>
+
+            <div
+                    class="bed-list"
+                    id="bedList"
+            >
+
+                <div class="empty-message">
+                    Chưa có phòng được chọn
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= XÁC NHẬN ================= -->
+
+        <section class="registration-section">
+
+            <h3>
+                3. Xác nhận đăng ký
+            </h3>
+
+            <div class="registration-summary">
+
+                <p>
+                    <strong>Phòng:</strong>
+
+                    <span id="summaryRoom">
+                        Chưa chọn
+                    </span>
+                </p>
+
+                <p>
+                    <strong>Giường:</strong>
+
+                    <span id="summaryBed">
+                        Chưa chọn
+                    </span>
+                </p>
+
+            </div>
+
+            <button
+                    id="registerButton"
+                    class="register-button"
+                    disabled
+            >
+                ĐĂNG KÝ KTX
+            </button>
+
+        </section>
+
+
+        <!-- ================= ĐĂNG KÝ CỦA TÔI ================= -->
+
+        <section class="registration-section">
+
+            <h3>
+                Đăng ký của tôi
+            </h3>
+
+            <div
+                    id="myRegistrations"
+                    class="my-registrations"
+            >
+
+                <div class="loading">
+                    Đang tải...
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<script src="/js/auth.js"></script>
+
+<script src="/js/student/registration.js"></script>
+
+</body>
+
+</html>

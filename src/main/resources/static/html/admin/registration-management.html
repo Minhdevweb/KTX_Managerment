@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Quản lý đăng ký KTX - KTX</title>
+
+  <link
+          rel="stylesheet"
+          href="/css/style.css"
+  >
+
+  <link
+          rel="stylesheet"
+          href="/css/admin/registration-management.css"
+  >
+</head>
+
+<body data-require-login="true">
+
+<header class="header">
+
+  <div class="header-top">
+
+    <div class="logo-area">
+
+      <img
+              class="logo"
+              src="/images/logo-vku.jpg"
+              alt="Logo VKU"
+      >
+
+      <div class="school-info">
+
+        <h1>
+          TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN
+        </h1>
+
+        <h2>
+          VÀ TRUYỀN THÔNG VIỆT - HÀN
+        </h2>
+
+        <p>
+          HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <nav class="navbar">
+
+    <div class="nav-container">
+
+      <a
+              href="/html/index.html"
+              class="nav-item"
+      >
+        TRANG CHỦ
+      </a>
+
+      <a
+              href="/html/admin/dashboard.html"
+              class="nav-item"
+      >
+        QUẢN TRỊ VIÊN
+      </a>
+
+      <div class="auth-area">
+
+        <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser"
+                    ></span>
+
+          <button
+                  onclick="logout(false)"
+                  class="logout-button"
+          >
+            ĐĂNG XUẤT
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+</header>
+
+
+<main class="registration-management">
+
+  <div class="registration-card">
+
+    <div class="registration-header">
+
+      <div>
+
+        <h2>
+          QUẢN LÝ ĐĂNG KÝ KTX
+        </h2>
+
+        <p>
+          Xét duyệt đăng ký lưu trú của sinh viên
+        </p>
+
+      </div>
+
+      <a
+              href="/html/admin/dashboard.html"
+              class="back-button"
+      >
+        Quay lại
+      </a>
+
+    </div>
+
+
+    <div
+            id="message"
+            class="message"
+    ></div>
+
+
+    <div class="filter-area">
+
+      <button
+              id="allButton"
+              class="filter-button active"
+      >
+        Tất cả
+      </button>
+
+      <button
+              id="pendingButton"
+              class="filter-button"
+      >
+        Chờ duyệt
+      </button>
+
+      <button
+              id="approvedButton"
+              class="filter-button"
+      >
+        Đã duyệt
+      </button>
+
+      <button
+              id="rejectedButton"
+              class="filter-button"
+      >
+        Từ chối
+      </button>
+
+    </div>
+
+
+    <div class="registration-table-container">
+
+      <table class="registration-table">
+
+        <thead>
+
+        <tr>
+
+          <th>
+            STT
+          </th>
+
+          <th>
+            Sinh viên
+          </th>
+
+          <th>
+            Email
+          </th>
+
+          <th>
+            Phòng
+          </th>
+
+          <th>
+            Giường
+          </th>
+
+          <th>
+            Ngày đăng ký
+          </th>
+
+          <th>
+            Trạng thái
+          </th>
+
+          <th>
+            Thao tác
+          </th>
+
+        </tr>
+
+        </thead>
+
+        <tbody id="registrationList">
+
+        <tr>
+
+          <td
+                  colspan="8"
+                  class="loading"
+          >
+            Đang tải dữ liệu...
+          </td>
+
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<script src="/js/auth.js"></script>
+
+<script src="/js/admin/registration-management.js"></script>
+
+</body>
+
+</html>

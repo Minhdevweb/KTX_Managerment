@@ -53,6 +53,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**")
                         .hasRole("ADMIN")
 
+                        .requestMatchers("/api/student/**")
+                        .hasRole("STUDENT")
+
                         // CÁC API KHÁC
                         .anyRequest().authenticated()
                 )

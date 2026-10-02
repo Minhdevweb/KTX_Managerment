@@ -1,0 +1,299 @@
+/* ================= QUẢN LÝ ĐĂNG KÝ ================= */
+
+.registration-management {
+    padding: 40px 20px;
+    min-height: calc(100vh - 180px);
+}
+
+.registration-card {
+    max-width: 1250px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ================= HEADER ================= */
+
+.registration-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.registration-header h2 {
+    margin: 0 0 8px 0;
+    color: #075b9d;
+}
+
+.registration-header p {
+    margin: 0;
+    color: #666;
+}
+
+.back-button {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    background: #075b9d;
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background: #064d85;
+}
+
+
+/* ================= MESSAGE ================= */
+
+.message {
+    display: none;
+
+    padding: 12px 15px;
+
+    border-radius: 6px;
+
+    margin-bottom: 20px;
+}
+
+.message.success {
+    display: block;
+
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.message.error {
+    display: block;
+
+    background: #ffebee;
+    color: #c62828;
+}
+
+
+/* ================= FILTER ================= */
+
+.filter-area {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.filter-button {
+    padding: 9px 18px;
+
+    border: 1px solid #075b9d;
+
+    background: white;
+    color: #075b9d;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.filter-button:hover,
+.filter-button.active {
+    background: #075b9d;
+    color: white;
+}
+
+
+/* ================= TABLE ================= */
+
+.registration-table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.registration-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1000px;
+}
+
+.registration-table th {
+    background: #075b9d;
+    color: white;
+
+    padding: 13px 10px;
+
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+.registration-table td {
+    padding: 12px 10px;
+
+    border-bottom: 1px solid #e5e5e5;
+
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.registration-table tbody tr:hover {
+    background: #f5f7fa;
+}
+
+
+/* ================= STUDENT ================= */
+
+.student-name {
+    font-weight: bold;
+    color: #075b9d;
+}
+
+.student-username {
+    font-size: 13px;
+    color: #777;
+    margin-top: 3px;
+}
+
+
+/* ================= STATUS ================= */
+
+.status {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 5px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+
+/* ================= ACTION ================= */
+
+.action-area {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 7px;
+}
+
+.approve-button,
+.reject-button {
+    border: none;
+
+    padding: 7px 12px;
+
+    border-radius: 5px;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.approve-button {
+    background: #2e7d32;
+}
+
+.approve-button:hover {
+    background: #256628;
+}
+
+.reject-button {
+    background: #c62828;
+}
+
+.reject-button:hover {
+    background: #a82020;
+}
+
+.no-action {
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* ================= LOADING ================= */
+
+.loading {
+    padding: 30px !important;
+
+    text-align: center !important;
+
+    color: #777;
+}
+
+
+/* ================= EMPTY ================= */
+
+.empty {
+    padding: 30px !important;
+
+    text-align: center !important;
+
+    color: #777;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 700px) {
+
+    .registration-management {
+        padding: 20px 10px;
+    }
+
+    .registration-card {
+        padding: 20px;
+    }
+
+    .registration-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .filter-area {
+        flex-wrap: wrap;
+    }
+
+}
