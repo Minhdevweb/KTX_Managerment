@@ -8,6 +8,8 @@ import com.ktx.ktx.repository.BedRepository;
 import com.ktx.ktx.repository.RegistrationRepository;
 import com.ktx.ktx.repository.RoomRepository;
 import com.ktx.ktx.repository.UserRepository;
+import com.ktx.ktx.entity.Building;
+import com.ktx.ktx.repository.BuildingRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,33 +25,115 @@ public class StudentRegistrationController {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final BedRepository bedRepository;
+    private final BuildingRepository buildingRepository;
 
     public StudentRegistrationController(
             RegistrationRepository registrationRepository,
             UserRepository userRepository,
             RoomRepository roomRepository,
-            BedRepository bedRepository
+            BedRepository bedRepository,
+            BuildingRepository buildingRepository
     ) {
         this.registrationRepository = registrationRepository;
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
         this.bedRepository = bedRepository;
+        this.buildingRepository = buildingRepository;
     }
 
     // =========================
-    // XEM PHÒNG CÒN CHỖ
-    // =========================
+// XEM DANH SÁCH TÒA CÒN CHỖ
+// =========================
 
-    @GetMapping("/rooms")
-    public ResponseEntity<?> getAvailableRooms() {
+    @GetMapping("/buildings")
+    public ResponseEntity<?> getAvailableBuildings() {
 
-        List<Room> rooms = roomRepository.findAll();
+        List<Building> buildings =
+                buildingRepository.findAll();
 
-        List<Map<String, Object>> result = new ArrayList<>();
+        List<Map<String, Object>> result =
+                new ArrayList<>();
+
+        for (Building building : buildings) {
+
+            List<Room> rooms =
+                    roomRepository.findByBuildingId(
+                            building.getId()
+                    );
+
+            boolean hasAvailableRoom = false;
+
+            for (Room room : rooms) {
+
+                // Chỉ cho sinh viên thấy phòng AVAILABLE
+                if (!"AVAILABLE".equalsIgnoreCase(
+                        room.getStatus()
+                )) {
+                    continue;
+                }
+
+                List<Bed> beds =
+                        bedRepository.findByRoomIdAndStatus(
+                                room.getId(),
+                                "AVAILABLE"
+                        );
+
+                if (!beds.isEmpty()) {
+                    hasAvailableRoom = true;
+                    break;
+                }
+            }
+
+            // Tòa không còn phòng có giường trống thì không hiển thị
+            if (!hasAvailableRoom) {
+                continue;
+            }
+
+            Map<String, Object> data =
+                    new LinkedHashMap<>();
+
+            data.put("id", building.getId());
+            data.put("code", building.getCode());
+            data.put("name", building.getName());
+            data.put("description", building.getDescription());
+
+            result.add(data);
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+
+// =========================
+// XEM PHÒNG THEO TÒA
+// =========================
+
+    @GetMapping("/buildings/{buildingId}/rooms")
+    public ResponseEntity<?> getAvailableRoomsByBuilding(
+            @PathVariable Long buildingId
+    ) {
+
+        if (!buildingRepository.existsById(buildingId)) {
+
+            return ResponseEntity.status(
+                    HttpStatus.NOT_FOUND
+            ).body("Không tìm thấy tòa nhà!");
+        }
+
+        List<Room> rooms =
+                roomRepository.findByBuildingId(
+                        buildingId
+                );
+
+        List<Map<String, Object>> result =
+                new ArrayList<>();
 
         for (Room room : rooms) {
 
-            if ("MAINTENANCE".equalsIgnoreCase(room.getStatus())) {
+            // FULL hoặc MAINTENANCE đều không cho đăng ký
+            if (!"AVAILABLE".equalsIgnoreCase(
+                    room.getStatus()
+            )) {
                 continue;
             }
 
@@ -63,27 +147,38 @@ public class StudentRegistrationController {
                 continue;
             }
 
-            Map<String, Object> data = new LinkedHashMap<>();
+            Map<String, Object> data =
+                    new LinkedHashMap<>();
 
             data.put("id", room.getId());
             data.put("roomNumber", room.getRoomNumber());
             data.put("capacity", room.getCapacity());
             data.put("status", room.getStatus());
+            data.put("availableBeds", beds.size());
 
             if (room.getBuilding() != null) {
-                data.put("buildingId", room.getBuilding().getId());
-                data.put("buildingCode", room.getBuilding().getCode());
-                data.put("buildingName", room.getBuilding().getName());
-            }
 
-            data.put("availableBeds", beds.size());
+                data.put(
+                        "buildingId",
+                        room.getBuilding().getId()
+                );
+
+                data.put(
+                        "buildingCode",
+                        room.getBuilding().getCode()
+                );
+
+                data.put(
+                        "buildingName",
+                        room.getBuilding().getName()
+                );
+            }
 
             result.add(data);
         }
 
         return ResponseEntity.ok(result);
     }
-
 
     // =========================
     // XEM GIƯỜNG CÒN TRỐNG
@@ -275,4 +370,64 @@ public class StudentRegistrationController {
                         )
         );
     }
+
+//        thông tin phongf hiện tại
+    @GetMapping("/room")
+    public ResponseEntity<?> getMyRoom(
+            java.security.Principal principal
+    ) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Bạn chưa đăng nhập");
+        }
+        Optional<User> optionalStudent = userRepository.findByUsername(principal.getName());
+
+        if (optionalStudent.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Không tìm thấy sinh viên");
+        }
+
+        User student = optionalStudent.get();
+
+        List<Registration> registrations = registrationRepository
+                .findByStudentIdOrderByCreatedAtDesc(student.getId());
+
+//        Tìm đơn hiện tại
+        Registration approvedRegistration = registrations.stream()
+                .filter(r -> "APPROVED".equalsIgnoreCase(r.getStatus()))
+                .findFirst()
+                .orElse(null);
+
+        if (approvedRegistration == null) {
+            return ResponseEntity.ok(
+                    Map.of(
+                            "hasRoom", false,
+                            "message", "Bạn chưa được phân phòng KTX."
+                    )
+            );
+        }
+        Room room = approvedRegistration.getRoom();
+        Bed bed = approvedRegistration.getBed();
+
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        result.put("hasRoom", true);
+
+        result.put("roomId", room.getId());
+        result.put("roomNumber", room.getRoomNumber());
+        result.put("capacity", room.getCapacity());
+        result.put("roomStatus", room.getStatus());
+
+        if (room.getBuilding() != null) {
+            result.put("buildingId", room.getBuilding().getId());
+            result.put("buildingCode", room.getBuilding().getCode());
+            result.put("buildingName", room.getBuilding().getName());
+        }
+        result.put("bedId", bed.getId());
+        result.put("bedNumber", bed.getBedNumber());
+        result.put("bedStatus", bed.getStatus());
+
+        return ResponseEntity.ok(result);
+    }
+
 }

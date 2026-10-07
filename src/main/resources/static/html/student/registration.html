@@ -145,18 +145,50 @@
         ></div>
 
 
+        <!-- ================= CHỌN TÒA ================= -->
+
+        <section class="registration-section">
+
+            <h3>
+                1. Chọn tòa
+            </h3>
+
+            <div
+                    class="room-list"
+                    id="buildingList"
+            >
+
+                <div class="loading">
+                    Đang tải danh sách tòa...
+                </div>
+
+            </div>
+
+        </section>
+
+
         <!-- ================= CHỌN PHÒNG ================= -->
 
         <section class="registration-section">
 
             <h3>
-                1. Chọn phòng
+                2. Chọn phòng
             </h3>
 
-            <div class="room-list" id="roomList">
+            <div
+                    id="selectedBuildingInfo"
+                    class="selected-room"
+            >
+                Vui lòng chọn tòa trước
+            </div>
 
-                <div class="loading">
-                    Đang tải danh sách phòng...
+            <div
+                    class="room-list"
+                    id="roomList"
+            >
+
+                <div class="empty-message">
+                    Chưa có tòa được chọn
                 </div>
 
             </div>
@@ -169,7 +201,7 @@
         <section class="registration-section">
 
             <h3>
-                2. Chọn giường
+                3. Chọn giường
             </h3>
 
             <div
@@ -198,25 +230,33 @@
         <section class="registration-section">
 
             <h3>
-                3. Xác nhận đăng ký
+                4. Xác nhận đăng ký
             </h3>
 
             <div class="registration-summary">
 
                 <p>
+                    <strong>Tòa:</strong>
+
+                    <span id="summaryBuilding">
+                Chưa chọn
+            </span>
+                </p>
+
+                <p>
                     <strong>Phòng:</strong>
 
                     <span id="summaryRoom">
-                        Chưa chọn
-                    </span>
+                Chưa chọn
+            </span>
                 </p>
 
                 <p>
                     <strong>Giường:</strong>
 
                     <span id="summaryBed">
-                        Chưa chọn
-                    </span>
+                Chưa chọn
+            </span>
                 </p>
 
             </div>
@@ -230,7 +270,6 @@
             </button>
 
         </section>
-
 
         <!-- ================= ĐĂNG KÝ CỦA TÔI ================= -->
 

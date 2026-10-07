@@ -1,0 +1,147 @@
+/* =========================
+   TRANG THÔNG TIN PHÒNG
+   ========================= */
+
+.room-page {
+    padding: 40px 20px;
+    min-height: calc(100vh - 180px);
+}
+
+.room-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.room-card h2 {
+    text-align: center;
+    color: #075b9d;
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   THÔNG BÁO
+   ========================= */
+
+.room-message {
+    text-align: center;
+    padding: 35px 20px;
+    color: #555;
+}
+
+.no-room h3 {
+    color: #075b9d;
+    margin: 15px 0 10px;
+}
+
+.message-icon {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: #c0392b;
+}
+
+
+/* =========================
+   THÔNG TIN PHÒNG
+   ========================= */
+
+.room-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.info-item {
+    padding: 20px;
+    background: #f5f7fa;
+    border-radius: 8px;
+    border-left: 4px solid #0868a8;
+}
+
+.info-label {
+    display: block;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.info-item strong {
+    color: #075b9d;
+    font-size: 18px;
+}
+
+
+/* =========================
+   TRẠNG THÁI
+   ========================= */
+
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+
+/* =========================
+   BUTTON
+   ========================= */
+
+.room-actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.back-button,
+.register-button {
+    border: none;
+    padding: 11px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+.back-button {
+    background: #075b9d;
+}
+
+.register-button {
+    background: #e67e22;
+    margin-top: 15px;
+}
+
+.back-button:hover {
+    background: #07568d;
+}
+
+.register-button:hover {
+    background: #d96d13;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 700px) {
+
+    .room-card {
+        padding: 20px;
+    }
+
+    .room-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

@@ -1,5 +1,8 @@
+const BUILDING_API =
+    "/api/student/registrations/buildings";
+
 const ROOM_API =
-    "/api/student/registrations/rooms";
+    "/api/student/registrations/buildings";
 
 const BED_API =
     "/api/student/registrations/rooms";
@@ -7,14 +10,20 @@ const BED_API =
 const REGISTRATION_API =
     "/api/student/registrations";
 
+
+let selectedBuildingId = null;
 let selectedRoomId = null;
 let selectedBedId = null;
 
+let selectedBuilding = null;
 let selectedRoom = null;
 let selectedBed = null;
 
 
 /* ================= ELEMENT ================= */
+
+const buildingList =
+    document.getElementById("buildingList");
 
 const roomList =
     document.getElementById("roomList");
@@ -22,8 +31,14 @@ const roomList =
 const bedList =
     document.getElementById("bedList");
 
+const selectedBuildingInfo =
+    document.getElementById("selectedBuildingInfo");
+
 const selectedRoomInfo =
     document.getElementById("selectedRoomInfo");
+
+const summaryBuilding =
+    document.getElementById("summaryBuilding");
 
 const summaryRoom =
     document.getElementById("summaryRoom");
@@ -43,9 +58,13 @@ const myRegistrations =
 
 /* ================= MESSAGE ================= */
 
-function showMessage(message, type = "success") {
+function showMessage(
+    message,
+    type = "success"
+) {
 
-    messageBox.textContent = message;
+    messageBox.textContent =
+        message;
 
     messageBox.className =
         "message " + type;
@@ -54,30 +73,35 @@ function showMessage(message, type = "success") {
 
         messageBox.textContent = "";
 
-        messageBox.className = "message";
+        messageBox.className =
+            "message";
 
     }, 4000);
 }
 
 
-/* ================= LOAD ROOMS ================= */
+/* ================= LOAD BUILDINGS ================= */
 
-async function loadRooms() {
+async function loadBuildings() {
 
     try {
 
-        const token = getToken();
+        const token =
+            getToken();
 
-        const response = await fetch(
-            ROOM_API,
-            {
-                method: "GET",
-                headers: {
-                    "Authorization":
-                        "Bearer " + token
+        const response =
+            await fetch(
+                BUILDING_API,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
                 }
-            }
-        );
+            );
+
 
         if (!response.ok) {
 
@@ -102,14 +126,17 @@ async function loadRooms() {
             }
 
             throw new Error(
-                "Không thể tải danh sách phòng!"
+                "Không thể tải danh sách tòa!"
             );
         }
 
-        const rooms =
+
+        const buildings =
             await response.json();
 
-        renderRooms(rooms);
+        renderBuildings(
+            buildings
+        );
 
     } catch (error) {
 
@@ -124,17 +151,23 @@ async function loadRooms() {
 }
 
 
-/* ================= RENDER ROOMS ================= */
+/* ================= RENDER BUILDINGS ================= */
 
-function renderRooms(rooms) {
+function renderBuildings(
+    buildings
+) {
 
-    roomList.innerHTML = "";
+    buildingList.innerHTML = "";
 
-    if (!rooms || rooms.length === 0) {
 
-        roomList.innerHTML = `
+    if (
+        !buildings ||
+        buildings.length === 0
+    ) {
+
+        buildingList.innerHTML = `
             <div class="empty-message">
-                Hiện tại không có phòng còn giường trống.
+                Hiện tại không có tòa nào còn phòng trống.
             </div>
         `;
 
@@ -142,70 +175,325 @@ function renderRooms(rooms) {
     }
 
 
-    rooms.forEach(room => {
+    buildings.forEach(
+        building => {
 
-        const item =
-            document.createElement("div");
-
-        item.className = "room-item";
-
-        item.innerHTML = `
-
-            <div class="room-number">
-                Phòng ${escapeHtml(
-            room.roomNumber || ""
-        )}
-            </div>
-
-            <div class="room-info">
-
-                <div>
-                    Sức chứa:
-                    ${room.capacity || 0}
-                </div>
-
-                <div>
-                    Giường trống:
-                    ${
-            room.availableBeds
-                ? room.availableBeds.length
-                : 0
-        }
-                </div>
-
-            </div>
-
-        `;
-
-
-        item.addEventListener(
-            "click",
-            function () {
-
-                selectRoom(
-                    room,
-                    item
+            const item =
+                document.createElement(
+                    "div"
                 );
 
-            }
+            /*
+             * Dùng lại room-item
+             * để giữ nguyên giao diện hiện tại
+             */
+            item.className =
+                "room-item";
+
+
+            item.innerHTML = `
+
+                <div class="room-number">
+                    Tòa
+                    ${escapeHtml(
+                building.code || ""
+            )}
+                </div>
+
+                <div class="room-info">
+
+                    <div>
+                        ${escapeHtml(
+                building.name || ""
+            )}
+                    </div>
+
+                    <div>
+                        ${escapeHtml(
+                building.description || ""
+            )}
+                    </div>
+
+                </div>
+
+            `;
+
+
+            item.addEventListener(
+                "click",
+                function () {
+
+                    selectBuilding(
+                        building,
+                        item
+                    );
+
+                }
+            );
+
+
+            buildingList.appendChild(
+                item
+            );
+
+        }
+    );
+}
+
+
+/* ================= SELECT BUILDING ================= */
+
+function selectBuilding(
+    building,
+    element
+) {
+
+    selectedBuildingId =
+        building.id;
+
+    selectedBuilding =
+        building;
+
+
+    selectedRoomId = null;
+    selectedBedId = null;
+
+    selectedRoom = null;
+    selectedBed = null;
+
+
+    document
+        .querySelectorAll(
+            "#buildingList .room-item"
+        )
+        .forEach(item => {
+
+            item.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    element.classList.add(
+        "selected"
+    );
+
+
+    selectedBuildingInfo.textContent =
+        "Tòa " +
+        (
+            building.code ||
+            building.name ||
+            ""
         );
 
 
-        roomList.appendChild(item);
+    summaryBuilding.textContent =
+        "Tòa " +
+        (
+            building.code ||
+            building.name ||
+            ""
+        );
 
-    });
+
+    summaryRoom.textContent =
+        "Chưa chọn";
+
+    summaryBed.textContent =
+        "Chưa chọn";
+
+
+    selectedRoomInfo.textContent =
+        "Vui lòng chọn phòng trước";
+
+
+    bedList.innerHTML = `
+        <div class="empty-message">
+            Chưa có phòng được chọn
+        </div>
+    `;
+
+
+    registerButton.disabled =
+        true;
+
+
+    loadRoomsByBuilding(
+        building.id
+    );
+}
+
+
+/* ================= LOAD ROOMS ================= */
+
+async function loadRoomsByBuilding(
+    buildingId
+) {
+
+    try {
+
+        roomList.innerHTML = `
+            <div class="loading">
+                Đang tải danh sách phòng...
+            </div>
+        `;
+
+
+        const token =
+            getToken();
+
+
+        const response =
+            await fetch(
+                `${ROOM_API}/${buildingId}/rooms`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Không thể tải danh sách phòng!"
+            );
+        }
+
+
+        const rooms =
+            await response.json();
+
+
+        renderRooms(
+            rooms
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        roomList.innerHTML = `
+            <div class="empty-message">
+                Không thể tải danh sách phòng.
+            </div>
+        `;
+
+        showMessage(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* ================= RENDER ROOMS ================= */
+
+function renderRooms(
+    rooms
+) {
+
+    roomList.innerHTML = "";
+
+
+    if (
+        !rooms ||
+        rooms.length === 0
+    ) {
+
+        roomList.innerHTML = `
+            <div class="empty-message">
+                Tòa này hiện không có phòng còn giường trống.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    rooms.forEach(
+        room => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "room-item";
+
+
+            item.innerHTML = `
+
+                <div class="room-number">
+
+                    Phòng
+                    ${escapeHtml(
+                room.roomNumber || ""
+            )}
+
+                </div>
+
+
+                <div class="room-info">
+
+                    <div>
+                        Sức chứa:
+                        ${room.capacity || 0}
+                    </div>
+
+                    <div>
+                        Giường trống:
+                        ${room.availableBeds || 0}
+                    </div>
+
+                </div>
+
+            `;
+
+
+            item.addEventListener(
+                "click",
+                function () {
+
+                    selectRoom(
+                        room,
+                        item
+                    );
+
+                }
+            );
+
+
+            roomList.appendChild(
+                item
+            );
+
+        }
+    );
 }
 
 
 /* ================= SELECT ROOM ================= */
 
-function selectRoom(room, element) {
+function selectRoom(
+    room,
+    element
+) {
 
     selectedRoomId =
         room.id;
 
     selectedRoom =
         room;
+
 
     selectedBedId =
         null;
@@ -215,7 +503,9 @@ function selectRoom(room, element) {
 
 
     document
-        .querySelectorAll(".room-item")
+        .querySelectorAll(
+            "#roomList .room-item"
+        )
         .forEach(item => {
 
             item.classList.remove(
@@ -232,12 +522,18 @@ function selectRoom(room, element) {
 
     selectedRoomInfo.textContent =
         "Phòng " +
-        (room.roomNumber || "");
+        (
+            room.roomNumber ||
+            ""
+        );
 
 
     summaryRoom.textContent =
         "Phòng " +
-        (room.roomNumber || "");
+        (
+            room.roomNumber ||
+            ""
+        );
 
 
     summaryBed.textContent =
@@ -256,17 +552,29 @@ function selectRoom(room, element) {
 
 /* ================= LOAD BEDS ================= */
 
-async function loadBeds(roomId) {
+async function loadBeds(
+    roomId
+) {
 
     try {
 
-        const token = getToken();
+        bedList.innerHTML = `
+            <div class="loading">
+                Đang tải danh sách giường...
+            </div>
+        `;
+
+
+        const token =
+            getToken();
+
 
         const response =
             await fetch(
                 `${BED_API}/${roomId}/beds`,
                 {
                     method: "GET",
+
                     headers: {
                         "Authorization":
                             "Bearer " + token
@@ -286,7 +594,10 @@ async function loadBeds(roomId) {
         const beds =
             await response.json();
 
-        renderBeds(beds);
+
+        renderBeds(
+            beds
+        );
 
     } catch (error) {
 
@@ -308,11 +619,17 @@ async function loadBeds(roomId) {
 
 /* ================= RENDER BEDS ================= */
 
-function renderBeds(beds) {
+function renderBeds(
+    beds
+) {
 
     bedList.innerHTML = "";
 
-    if (!beds || beds.length === 0) {
+
+    if (
+        !beds ||
+        beds.length === 0
+    ) {
 
         bedList.innerHTML = `
             <div class="empty-message">
@@ -324,51 +641,61 @@ function renderBeds(beds) {
     }
 
 
-    beds.forEach(bed => {
+    beds.forEach(
+        bed => {
 
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "bed-item";
-
-
-        item.innerHTML = `
-
-            <div class="bed-number">
-
-                Giường
-                ${escapeHtml(
-            bed.bedNumber || ""
-        )}
-
-            </div>
-
-        `;
-
-
-        item.addEventListener(
-            "click",
-            function () {
-
-                selectBed(
-                    bed,
-                    item
+            const item =
+                document.createElement(
+                    "div"
                 );
 
-            }
-        );
+
+            item.className =
+                "bed-item";
 
 
-        bedList.appendChild(item);
+            item.innerHTML = `
 
-    });
+                <div class="bed-number">
+
+                    Giường
+                    ${escapeHtml(
+                bed.bedNumber || ""
+            )}
+
+                </div>
+
+            `;
+
+
+            item.addEventListener(
+                "click",
+                function () {
+
+                    selectBed(
+                        bed,
+                        item
+                    );
+
+                }
+            );
+
+
+            bedList.appendChild(
+                item
+            );
+
+        }
+    );
 }
 
 
 /* ================= SELECT BED ================= */
 
-function selectBed(bed, element) {
+function selectBed(
+    bed,
+    element
+) {
 
     selectedBedId =
         bed.id;
@@ -378,7 +705,9 @@ function selectBed(bed, element) {
 
 
     document
-        .querySelectorAll(".bed-item")
+        .querySelectorAll(
+            ".bed-item"
+        )
         .forEach(item => {
 
             item.classList.remove(
@@ -395,7 +724,10 @@ function selectBed(bed, element) {
 
     summaryBed.textContent =
         "Giường " +
-        (bed.bedNumber || "");
+        (
+            bed.bedNumber ||
+            ""
+        );
 
 
     registerButton.disabled =
@@ -430,7 +762,6 @@ registerButton.addEventListener(
 
 
         if (!confirmRegister) {
-
             return;
         }
 
@@ -461,7 +792,6 @@ registerButton.addEventListener(
 
                             "Authorization":
                                 "Bearer " + token
-
                         },
 
                         body: JSON.stringify({
@@ -473,7 +803,6 @@ registerButton.addEventListener(
                             selectedBedId
 
                         })
-
                     }
                 );
 
@@ -502,7 +831,7 @@ registerButton.addEventListener(
 
             resetSelection();
 
-            loadRooms();
+            loadBuildings();
 
             loadMyRegistrations();
 
@@ -523,7 +852,6 @@ registerButton.addEventListener(
 
             registerButton.textContent =
                 "ĐĂNG KÝ KTX";
-
         }
 
     }
@@ -545,6 +873,7 @@ async function loadMyRegistrations() {
                 `${REGISTRATION_API}/my`,
                 {
                     method: "GET",
+
                     headers: {
                         "Authorization":
                             "Bearer " + token
@@ -569,7 +898,6 @@ async function loadMyRegistrations() {
             registrations
         );
 
-
     } catch (error) {
 
         console.error(error);
@@ -589,7 +917,8 @@ function renderMyRegistrations(
     registrations
 ) {
 
-    myRegistrations.innerHTML = "";
+    myRegistrations.innerHTML =
+        "";
 
 
     if (
@@ -615,6 +944,7 @@ function renderMyRegistrations(
                     "div"
                 );
 
+
             item.className =
                 "registration-item";
 
@@ -625,11 +955,15 @@ function renderMyRegistrations(
 
 
             const statusClass =
-                getStatusClass(status);
+                getStatusClass(
+                    status
+                );
 
 
             const statusText =
-                getStatusText(status);
+                getStatusText(
+                    status
+                );
 
 
             item.innerHTML = `
@@ -637,36 +971,58 @@ function renderMyRegistrations(
                 <div class="registration-info">
 
                     <strong>
+
+                        Tòa:
+                        ${
+                registration.room &&
+                registration.room.building
+                    ? (
+                        registration.room
+                            .building
+                            .code || ""
+                    )
+                    : ""
+            }
+
+                        -
+
                         Phòng:
                         ${
                 registration.room
                     ? (
-                        registration.room.roomNumber
-                        || ""
+                        registration.room
+                            .roomNumber || ""
                     )
                     : ""
             }
+
                     </strong>
 
+
                     <span>
+
                         Giường:
                         ${
                 registration.bed
                     ? (
-                        registration.bed.bedNumber
-                        || ""
+                        registration.bed
+                            .bedNumber || ""
                     )
                     : ""
             }
+
                     </span>
 
+
                     <span>
+
                         Ngày đăng ký:
                         ${
                 formatDate(
                     registration.createdAt
                 )
             }
+
                     </span>
 
                 </div>
@@ -692,7 +1048,9 @@ function renderMyRegistrations(
 
 /* ================= STATUS ================= */
 
-function getStatusClass(status) {
+function getStatusClass(
+    status
+) {
 
     switch (
         String(status).toUpperCase()
@@ -710,7 +1068,9 @@ function getStatusClass(status) {
 }
 
 
-function getStatusText(status) {
+function getStatusText(
+    status
+) {
 
     switch (
         String(status).toUpperCase()
@@ -730,16 +1090,21 @@ function getStatusText(status) {
 
 /* ================= FORMAT DATE ================= */
 
-function formatDate(date) {
+function formatDate(
+    date
+) {
 
     if (!date) {
         return "";
     }
 
+
     try {
 
         return new Date(date)
-            .toLocaleString("vi-VN");
+            .toLocaleString(
+                "vi-VN"
+            );
 
     } catch (error) {
 
@@ -752,15 +1117,25 @@ function formatDate(date) {
 
 function resetSelection() {
 
+    selectedBuildingId = null;
     selectedRoomId = null;
     selectedBedId = null;
 
+    selectedBuilding = null;
     selectedRoom = null;
     selectedBed = null;
 
 
+    selectedBuildingInfo.textContent =
+        "Vui lòng chọn tòa trước";
+
+
     selectedRoomInfo.textContent =
         "Vui lòng chọn phòng trước";
+
+
+    summaryBuilding.textContent =
+        "Chưa chọn";
 
 
     summaryRoom.textContent =
@@ -771,6 +1146,13 @@ function resetSelection() {
         "Chưa chọn";
 
 
+    roomList.innerHTML = `
+        <div class="empty-message">
+            Chưa có tòa được chọn
+        </div>
+    `;
+
+
     bedList.innerHTML = `
         <div class="empty-message">
             Chưa có phòng được chọn
@@ -779,7 +1161,9 @@ function resetSelection() {
 
 
     document
-        .querySelectorAll(".room-item")
+        .querySelectorAll(
+            ".room-item"
+        )
         .forEach(item => {
 
             item.classList.remove(
@@ -787,26 +1171,48 @@ function resetSelection() {
             );
 
         });
+
+
+    registerButton.disabled =
+        true;
 }
 
 
 /* ================= ESCAPE HTML ================= */
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
-    if (value === null ||
-        value === undefined) {
-
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
 
     return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            "\"",
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
 
 
@@ -816,7 +1222,7 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        loadRooms();
+        loadBuildings();
 
         loadMyRegistrations();
 

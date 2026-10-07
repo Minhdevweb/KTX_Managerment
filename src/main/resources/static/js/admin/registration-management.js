@@ -231,17 +231,25 @@ function renderRegistrations() {
                 ).toUpperCase();
 
 
-            const student =
-                registration.student ||
-                {};
+            const studentName =
+                registration.fullName ||
+                "Chưa cập nhật";
 
-            const room =
-                registration.room ||
-                {};
+            const username =
+                registration.username ||
+                "";
 
-            const bed =
-                registration.bed ||
-                {};
+            const email =
+                registration.email ||
+                "Chưa cập nhật";
+
+            const roomNumber =
+                registration.roomNumber ||
+                "";
+
+            const bedNumber =
+                registration.bedNumber ||
+                "";
 
 
             row.innerHTML = `
@@ -256,7 +264,7 @@ function renderRegistrations() {
                     <div class="student-name">
 
                         ${escapeHtml(
-                student.fullName ||
+                studentName ||
                 "Chưa cập nhật"
             )}
 
@@ -266,7 +274,7 @@ function renderRegistrations() {
 
                         Username:
                         ${escapeHtml(
-                student.username ||
+                username ||
                 ""
             )}
 
@@ -278,7 +286,7 @@ function renderRegistrations() {
                 <td>
 
                     ${escapeHtml(
-                student.email ||
+                email||
                 "Chưa cập nhật"
             )}
 
@@ -288,7 +296,7 @@ function renderRegistrations() {
                 <td>
 
                     ${escapeHtml(
-                room.roomNumber ||
+                roomNumber ||
                 ""
             )}
 
@@ -298,7 +306,7 @@ function renderRegistrations() {
                 <td>
 
                     ${escapeHtml(
-                bed.bedNumber ||
+                bedNumber ||
                 ""
             )}
 

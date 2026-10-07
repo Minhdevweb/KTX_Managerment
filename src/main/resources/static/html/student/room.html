@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Thông tin phòng - KTX</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/student/room.css">
+</head>
+
+<body data-require-login="true">
+
+<header class="header">
+
+  <div class="header-top">
+
+    <div class="logo-area">
+
+      <img
+              class="logo"
+              src="/images/logo-vku.jpg"
+              alt="Logo VKU"
+      >
+
+      <div class="school-info">
+
+        <h1>
+          TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN
+        </h1>
+
+        <h2>
+          VÀ TRUYỀN THÔNG VIỆT - HÀN
+        </h2>
+
+        <p>
+          HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <nav class="navbar">
+
+    <div class="nav-container">
+
+      <a
+              href="/html/index.html"
+              class="nav-item"
+      >
+        TRANG CHỦ
+      </a>
+
+      <span class="nav-item">
+                SINH VIÊN
+            </span>
+
+      <div class="auth-area">
+
+        <div class="user-menu">
+
+                    <span
+                            class="welcome-user"
+                            id="welcomeUser"
+                    ></span>
+
+          <button
+                  onclick="logout(false)"
+                  class="logout-button"
+          >
+            ĐĂNG XUẤT
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+</header>
+
+
+<main class="room-page">
+
+  <div class="room-card">
+
+    <h2>
+      THÔNG TIN PHÒNG
+    </h2>
+
+
+    <!-- Đang tải -->
+
+    <div
+            id="loading"
+            class="room-message"
+    >
+      Đang tải thông tin phòng...
+    </div>
+
+
+    <!-- Không có phòng -->
+
+    <div
+            id="noRoom"
+            class="room-message no-room"
+            style="display: none;"
+    >
+
+      <div class="message-icon">
+        🏠
+      </div>
+
+      <h3>
+        Bạn chưa có phòng KTX
+      </h3>
+
+      <p id="noRoomMessage">
+        Bạn chưa được phân phòng KTX.
+      </p>
+
+      <button
+              class="register-button"
+              onclick="window.location.href='/html/student/registration.html'"
+      >
+        ĐĂNG KÝ KTX
+      </button>
+
+    </div>
+
+
+    <!-- Có phòng -->
+
+    <div
+            id="roomInfo"
+            style="display: none;"
+    >
+
+      <div class="room-info-grid">
+
+        <div class="info-item">
+
+                    <span class="info-label">
+                        Tòa nhà
+                    </span>
+
+          <strong id="buildingName">
+            -
+          </strong>
+
+        </div>
+
+
+        <div class="info-item">
+
+                    <span class="info-label">
+                        Mã tòa
+                    </span>
+
+          <strong id="buildingCode">
+            -
+          </strong>
+
+        </div>
+
+
+        <div class="info-item">
+
+                    <span class="info-label">
+                        Số phòng
+                    </span>
+
+          <strong id="roomNumber">
+            -
+          </strong>
+
+        </div>
+
+
+        <div class="info-item">
+
+                    <span class="info-label">
+                        Số giường
+                    </span>
+
+          <strong id="bedNumber">
+            -
+          </strong>
+
+        </div>
+
+
+        <div class="info-item">
+
+                    <span class="info-label">
+                        Sức chứa
+                    </span>
+
+          <strong id="capacity">
+            -
+          </strong>
+
+        </div>
+
+
+        <div class="info-item">
+
+                    <span class="info-label">
+                        Trạng thái phòng
+                    </span>
+
+          <span
+                  id="roomStatus"
+                  class="status"
+          >
+                        -
+                    </span>
+
+        </div>
+
+
+        <div class="info-item">
+
+                    <span class="info-label">
+                        Trạng thái giường
+                    </span>
+
+          <span
+                  id="bedStatus"
+                  class="status"
+          >
+                        -
+                    </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="room-actions">
+
+        <button
+                class="back-button"
+                onclick="window.location.href='/html/student/dashboard.html'"
+        >
+          QUAY LẠI
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Lỗi -->
+
+    <div
+            id="errorMessage"
+            class="room-message error-message"
+            style="display: none;"
+    >
+      Không thể tải thông tin phòng.
+    </div>
+
+  </div>
+
+</main>
+
+
+<script src="/js/auth.js"></script>
+<script src="/js/student/room.js"></script>
+
+</body>
+
+</html>
