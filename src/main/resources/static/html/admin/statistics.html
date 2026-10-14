@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thống kê - KTX</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin/statistics.css">
+</head>
+
+<body data-require-login="true">
+
+<header class="header">
+  <div class="header-top">
+    <div class="logo-area">
+      <img class="logo" src="/images/logo-vku.jpg" alt="Logo VKU">
+      <div class="school-info">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h1>
+        <h2>VÀ TRUYỀN THÔNG VIỆT - HÀN</h2>
+        <p>HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/html/index.html" class="nav-item">TRANG CHỦ</a>
+      <a href="/html/admin/dashboard.html" class="nav-item">QUẢN TRỊ VIÊN</a>
+      <div class="auth-area">
+        <div class="user-menu">
+          <span class="welcome-user" id="welcomeUser"></span>
+          <button onclick="logout(false)" class="logout-button">
+            ĐĂNG XUẤT
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="statistics-container">
+  <div class="statistics-heading">
+    <div>
+      <h2>THỐNG KÊ KÝ TÚC XÁ</h2>
+      <p>Tổng quan tình hình quản lý ký túc xá</p>
+    </div>
+
+    <button id="refreshButton" class="refresh-button">
+       Làm mới dữ liệu
+    </button>
+  </div>
+
+  <p id="loadingMessage" class="message">Đang tải dữ liệu...</p>
+  <p id="errorMessage" class="message error-message" hidden></p>
+
+  <section class="stat-cards">
+    <div class="stat-card">
+      <div class="stat-icon">SV</div>
+      <div>
+        <p>Tổng sinh viên</p>
+        <h3 id="totalStudents">0</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">TN</div>
+      <div>
+        <p>Tổng tòa nhà</p>
+        <h3 id="totalBuildings">0</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">P</div>
+      <div>
+        <p>Tổng phòng</p>
+        <h3 id="totalRooms">0</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">G</div>
+      <div>
+        <p>Tổng giường</p>
+        <h3 id="totalBeds">0</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="chart-grid">
+    <div class="chart-card">
+      <h3>Thống kê trạng thái giường</h3>
+      <p class="chart-description">
+        Số lượng giường theo từng trạng thái
+      </p>
+
+      <div class="bar-chart">
+        <div class="bar-item">
+          <span>Trống</span>
+          <div class="bar-track">
+            <div id="availableBedsBar" class="bar-fill available"></div>
+          </div>
+          <strong id="availableBeds">0</strong>
+        </div>
+
+        <div class="bar-item">
+          <span>Đã sử dụng</span>
+          <div class="bar-track">
+            <div id="occupiedBedsBar" class="bar-fill occupied"></div>
+          </div>
+          <strong id="occupiedBeds">0</strong>
+        </div>
+
+        <div class="bar-item">
+          <span>Bảo trì</span>
+          <div class="bar-track">
+            <div id="maintenanceBedsBar" class="bar-fill maintenance"></div>
+          </div>
+          <strong id="maintenanceBeds">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Tỷ lệ sử dụng giường</h3>
+      <p class="chart-description">
+        Tỷ lệ giường đã sử dụng trên tổng số giường
+      </p>
+
+      <div class="occupancy-chart">
+        <div class="donut-chart" id="occupancyChart">
+          <div class="donut-center">
+            <strong id="occupancyRate">0%</strong>
+            <span>Đã sử dụng</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-legend">
+        <span><i class="legend-dot occupied-dot"></i> Đã sử dụng</span>
+        <span><i class="legend-dot available-dot"></i> Chưa sử dụng</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="chart-grid">
+    <div class="chart-card">
+      <h3>Trạng thái phòng</h3>
+      <div class="summary-list">
+        <div>
+          <span>Phòng còn chỗ</span>
+          <strong id="availableRooms">0</strong>
+        </div>
+        <div>
+          <span>Phòng đã đầy</span>
+          <strong id="fullRooms">0</strong>
+        </div>
+        <div>
+          <span>Phòng bảo trì</span>
+          <strong id="maintenanceRooms">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Trạng thái đăng ký KTX</h3>
+      <div class="summary-list">
+        <div>
+          <span>Tổng đăng ký</span>
+          <strong id="totalRegistrations">0</strong>
+        </div>
+        <div>
+          <span>Chờ duyệt</span>
+          <strong id="pendingRegistrations">0</strong>
+        </div>
+        <div>
+          <span>Đã duyệt</span>
+          <strong id="approvedRegistrations">0</strong>
+        </div>
+        <div>
+          <span>Đã từ chối</span>
+          <strong id="rejectedRegistrations">0</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="statistics-footer">
+    <a href="/html/admin/dashboard.html">← Quay lại Dashboard</a>
+    <span id="lastUpdated"></span>
+  </div>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/admin/statistics.js"></script>
+</body>
+</html>
