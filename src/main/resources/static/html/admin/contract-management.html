@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý hợp đồng - KTX</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin/contract-management.css">
+</head>
+
+<body data-require-login="true">
+
+<header class="header">
+  <div class="header-top">
+    <div class="logo-area">
+      <img class="logo" src="/images/logo-vku.jpg" alt="Logo VKU">
+
+      <div class="school-info">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h1>
+        <h2>VÀ TRUYỀN THÔNG VIỆT - HÀN</h2>
+        <p>HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/html/index.html" class="nav-item">
+        TRANG CHỦ
+      </a>
+
+      <a href="/html/admin/dashboard.html" class="nav-item">
+        QUẢN TRỊ VIÊN
+      </a>
+
+      <div class="auth-area">
+        <div class="user-menu">
+          <span class="welcome-user" id="welcomeUser"></span>
+
+          <button onclick="logout(false)" class="logout-button">
+            ĐĂNG XUẤT
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="contract-management">
+  <section class="contract-card">
+
+    <div class="contract-header">
+      <div>
+        <h2>QUẢN LÝ HỢP ĐỒNG LƯU TRÚ</h2>
+        <p>Tạo hợp đồng cho sinh viên đã được duyệt đăng ký KTX</p>
+      </div>
+
+      <a href="/html/admin/dashboard.html" class="back-button">
+        Quay lại
+      </a>
+    </div>
+
+    <div id="message" class="message" role="status"></div>
+
+    <!-- FORM TẠO HỢP ĐỒNG -->
+    <section class="create-contract-section">
+      <h3>Tạo hợp đồng mới</h3>
+
+      <form id="contractForm">
+        <div class="form-grid">
+
+          <div class="form-group full-width">
+            <label for="registrationId">
+              Sinh viên / Đơn đăng ký đã duyệt
+            </label>
+
+            <select id="registrationId" required>
+              <option value="">Đang tải danh sách...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contractNumber">
+              Mã hợp đồng (có thể để trống)
+            </label>
+
+            <input
+                    type="text"
+                    id="contractNumber"
+                    maxlength="50"
+                    placeholder="Tự động tạo nếu để trống"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="monthlyFee">
+              Tiền thuê mỗi tháng (VNĐ)
+            </label>
+
+            <input
+                    type="number"
+                    id="monthlyFee"
+                    min="0"
+                    step="1000"
+                    required
+                    placeholder="Ví dụ: 500000"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="startDate">Ngày bắt đầu</label>
+
+            <input
+                    type="date"
+                    id="startDate"
+                    required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="endDate">Ngày kết thúc</label>
+
+            <input
+                    type="date"
+                    id="endDate"
+                    required
+            >
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button
+                  type="submit"
+                  id="createButton"
+                  class="primary-button"
+          >
+            Tạo hợp đồng
+          </button>
+
+          <button type="reset" class="secondary-button">
+            Nhập lại
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- DANH SÁCH HỢP ĐỒNG -->
+    <section class="contracts-section">
+      <div class="section-heading">
+        <h3>Danh sách hợp đồng</h3>
+
+        <button
+                type="button"
+                id="refreshButton"
+                class="secondary-button"
+        >
+          Làm mới
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="contract-table">
+          <thead>
+          <tr>
+            <th>STT</th>
+            <th>Mã hợp đồng</th>
+            <th>Sinh viên</th>
+            <th>Tòa / Phòng</th>
+            <th>Giường</th>
+            <th>Thời hạn</th>
+            <th>Tiền thuê/tháng</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+          </tr>
+          </thead>
+
+          <tbody id="contractList">
+          <tr>
+            <td colspan="8" class="loading">
+              Đang tải dữ liệu...
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </section>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/admin/contract-management.js"></script>
+
+</body>
+</html>

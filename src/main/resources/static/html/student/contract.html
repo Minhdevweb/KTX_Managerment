@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hợp đồng lưu trú - KTX VKU</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/student/contract.css">
+</head>
+
+<body data-require-login="true">
+
+<header class="header">
+  <div class="header-top">
+    <div class="logo-area">
+      <img class="logo" src="/images/logo-vku.jpg" alt="Logo VKU">
+
+      <div class="school-info">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h1>
+        <h2>VÀ TRUYỀN THÔNG VIỆT - HÀN</h2>
+        <p>HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/html/index.html" class="nav-item">TRANG CHỦ</a>
+      <a href="/html/student/dashboard.html" class="nav-item">
+        SINH VIÊN
+      </a>
+
+      <div class="auth-area">
+        <div class="user-menu">
+          <span class="welcome-user" id="welcomeUser"></span>
+          <button onclick="logout(false)" class="logout-button">
+            ĐĂNG XUẤT
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="contract-page">
+  <section class="contract-container">
+
+    <div class="page-heading">
+      <div>
+        <h2>HỢP ĐỒNG LƯU TRÚ</h2>
+        <p>Thông tin hợp đồng ký túc xá của bạn</p>
+      </div>
+
+      <button type="button" id="refreshButton" class="refresh-button">
+        Làm mới
+      </button>
+    </div>
+
+    <div id="message" class="message" hidden></div>
+
+    <div id="loading" class="loading">
+      Đang tải thông tin hợp đồng...
+    </div>
+
+    <div id="emptyState" class="empty-state" hidden>
+      <div class="empty-icon">📄</div>
+      <h3>Bạn chưa có hợp đồng lưu trú</h3>
+      <p>
+        Hợp đồng sẽ hiển thị tại đây sau khi đơn đăng ký KTX
+        được duyệt và quản trị viên tạo hợp đồng.
+      </p>
+    </div>
+
+    <div id="contractContent" hidden>
+      <div class="contract-summary">
+        <div class="summary-item">
+          <span class="summary-label">Tổng số hợp đồng</span>
+          <strong id="totalContracts">0</strong>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-label">Hợp đồng mới nhất</span>
+          <strong id="latestContract">—</strong>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+          <tr>
+            <th>Mã hợp đồng</th>
+            <th>Thông tin lưu trú</th>
+            <th>Thời hạn</th>
+            <th>Tiền thuê/tháng</th>
+            <th>Trạng thái</th>
+            <th>Chi tiết</th>
+          </tr>
+          </thead>
+
+          <tbody id="contractList"></tbody>
+        </table>
+      </div>
+
+      <div id="detailSection" class="detail-section" hidden>
+        <div class="detail-heading">
+          <h3>Chi tiết hợp đồng</h3>
+          <button type="button" id="closeDetailButton"
+                  class="close-button">Đóng</button>
+        </div>
+
+        <div id="contractDetail" class="detail-grid"></div>
+      </div>
+    </div>
+
+    <div class="back-area">
+      <a href="/html/student/dashboard.html" class="back-button">
+        ← Quay lại Dashboard
+      </a>
+    </div>
+
+  </section>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/student/contract.js"></script>
+
+</body>
+</html>

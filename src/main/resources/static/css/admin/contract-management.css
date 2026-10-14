@@ -1,0 +1,257 @@
+
+.contract-management {
+    width: min(1200px, calc(100% - 32px));
+    margin: 32px auto;
+}
+
+.contract-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.contract-header,
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.contract-header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 20px;
+}
+
+.contract-header h2 {
+    color: #075b9d;
+    margin: 0 0 8px;
+}
+
+.contract-header p {
+    margin: 0;
+    color: #667085;
+}
+
+.back-button,
+.primary-button,
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.back-button,
+.secondary-button {
+    background: #eef4f8;
+    color: #07568d;
+}
+
+.primary-button {
+    background: #0868a8;
+    color: #fff;
+}
+
+.primary-button:hover {
+    background: #075b9d;
+}
+
+.secondary-button:hover,
+.back-button:hover {
+    background: #dcebf5;
+}
+
+.create-contract-section,
+.contracts-section {
+    margin-top: 24px;
+}
+
+.create-contract-section h3,
+.contracts-section h3 {
+    color: #075b9d;
+    margin: 0 0 16px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    color: #344054;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 42px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 9px 11px;
+    background: #fff;
+    color: #1f2937;
+    font: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: 2px solid rgba(8, 104, 168, 0.18);
+    border-color: #0868a8;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.section-heading {
+    margin-bottom: 14px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.contract-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+.contract-table th,
+.contract-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.contract-table th {
+    background: #0868a8;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.contract-table tbody tr:hover {
+    background: #f7fafc;
+}
+
+.loading,
+.empty {
+    text-align: center !important;
+    color: #667085;
+    padding: 24px !important;
+}
+
+.contract-status {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    background: #dcfce7;
+    color: #166534;
+}
+
+.message {
+    display: none;
+    margin: 14px 0;
+    padding: 12px 14px;
+    border-radius: 6px;
+}
+
+.message.success {
+    display: block;
+    color: #166534;
+    background: #dcfce7;
+}
+
+.message.error {
+    display: block;
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+
+/* Nút hủy hợp đồng */
+.cancel-contract-button {
+    padding: 9px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #dc3545;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.cancel-contract-button:hover {
+    background: #b42332;
+    transform: translateY(-1px);
+}
+
+.no-action {
+    color: #7b8490;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.contract-status.status-cancelled {
+    color: #b42332;
+    background: #fde8ea;
+}
+
+
+@media (max-width: 700px) {
+    .contract-management {
+        width: calc(100% - 20px);
+        margin: 16px auto;
+    }
+
+    .contract-card {
+        padding: 18px 14px;
+    }
+
+    .contract-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+    }
+}
