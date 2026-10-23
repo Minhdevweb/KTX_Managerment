@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khoản phí & thanh toán - KTX VKU</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    .fee-page {
+      max-width: 1200px;
+      margin: 35px auto;
+      padding: 24px;
+    }
+
+    .fee-heading {
+      margin-bottom: 8px;
+      color: #173b67;
+    }
+
+    .fee-description {
+      color: #64748b;
+      margin-bottom: 25px;
+    }
+
+    .fee-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .fee-summary-card {
+      padding: 22px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 5px 20px rgba(15, 23, 42, .07);
+      border: 1px solid #e8edf4;
+    }
+
+    .fee-summary-card span {
+      display: block;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .fee-summary-card strong {
+      font-size: 22px;
+      color: #173b67;
+      overflow-wrap: anywhere;
+    }
+
+    .fee-panel {
+      padding: 22px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #e8edf4;
+      box-shadow: 0 5px 20px rgba(15, 23, 42, .06);
+      margin-bottom: 24px;
+    }
+
+    .fee-panel h2 {
+      margin-top: 0;
+      color: #173b67;
+    }
+
+    .fee-table-wrap {
+      overflow-x: auto;
+    }
+
+    .fee-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+    }
+
+    .fee-table th,
+    .fee-table td {
+      padding: 13px 12px;
+      border-bottom: 1px solid #e8edf4;
+      text-align: left;
+    }
+
+    .fee-table th {
+      background: #f5f8fc;
+      color: #334155;
+    }
+
+    .fee-status {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-PAID {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-PARTIAL {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-UNPAID {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .fee-action {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      background: #1d4ed8;
+      color: white;
+      cursor: pointer;
+    }
+
+    .fee-action:hover {
+      background: #1e40af;
+    }
+
+    .fee-message {
+      padding: 13px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      background: #eff6ff;
+      color: #1e40af;
+    }
+
+    .fee-error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .fee-empty {
+      text-align: center;
+      padding: 25px;
+      color: #64748b;
+    }
+
+    .fee-history-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid #e8edf4;
+    }
+
+    .fee-history-row:last-child {
+      border-bottom: none;
+    }
+
+    .fee-history-row strong {
+      color: #173b67;
+    }
+
+    .fee-history-meta {
+      color: #64748b;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .fee-back {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .fee-page {
+        margin: 15px auto;
+        padding: 14px;
+      }
+
+      .fee-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .fee-summary-card strong {
+        font-size: 20px;
+      }
+
+      .fee-panel {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body data-require-login="true">
+<header class="header">
+  <div class="header-top">
+    <div class="logo-area">
+      <img class="logo" src="/images/logo-vku.jpg" alt="Logo VKU">
+      <div class="school-info">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h1>
+        <h2>VÀ TRUYỀN THÔNG VIỆT - HÀN</h2>
+        <p>HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/html/index.html" class="nav-item">TRANG CHỦ</a>
+      <a href="/html/student/dashboard.html" class="nav-item">SINH VIÊN</a>
+
+      <div class="auth-area">
+        <div class="user-menu">
+          <span class="welcome-user" id="welcomeUser"></span>
+          <button onclick="logout(false)" class="logout-button">
+            ĐĂNG XUẤT
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="fee-page">
+  <a class="fee-back" href="/html/student/dashboard.html">
+    ← Quay lại trang sinh viên
+  </a>
+
+  <h1 class="fee-heading">Khoản phí & thanh toán</h1>
+  <p class="fee-description">
+    Theo dõi các khoản phí KTX, hạn thanh toán và lịch sử thu tiền của bạn.
+  </p>
+
+  <div id="message" class="fee-message" hidden></div>
+
+  <section class="fee-summary">
+    <div class="fee-summary-card">
+      <span>Tổng các khoản phí</span>
+      <strong id="totalAmount">0 ₫</strong>
+    </div>
+    <div class="fee-summary-card">
+      <span>Tổng đã thanh toán</span>
+      <strong id="paidAmount">0 ₫</strong>
+    </div>
+    <div class="fee-summary-card">
+      <span>Tổng còn phải thanh toán</span>
+      <strong id="remainingAmount">0 ₫</strong>
+    </div>
+  </section>
+
+  <section class="fee-panel">
+    <h2>Danh sách khoản phí</h2>
+    <div class="fee-table-wrap">
+      <table class="fee-table">
+        <thead>
+        <tr>
+          <th>Khoản thu</th>
+          <th>Tháng</th>
+          <th>Hạn thanh toán</th>
+          <th>Tổng tiền</th>
+          <th>Đã nộp</th>
+          <th>Còn nợ</th>
+          <th>Trạng thái</th>
+          <th>Chi tiết</th>
+        </tr>
+        </thead>
+        <tbody id="feeTableBody">
+        <tr>
+          <td colspan="8" class="fee-empty">Đang tải dữ liệu...</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="fee-panel" id="historyPanel" hidden>
+    <h2 id="historyTitle">Lịch sử thanh toán</h2>
+    <div id="historyContent"></div>
+  </section>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/student/fees.js"></script>
+</body>
+</html>

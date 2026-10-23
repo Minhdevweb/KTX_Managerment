@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý thanh toán | KTX VKU</title>
+    <link rel="stylesheet" href="../../css/admin/fee-management.css">
+</head>
+<body>
+<div class="page">
+    <header class="topbar">
+        <div>
+            <p class="eyebrow">KTX VKU · ADMIN</p>
+            <h1>Quản lý thanh toán</h1>
+            <p class="subtitle">Theo dõi khoản phí và tình trạng đóng tiền của sinh viên.</p>
+        </div>
+        <a class="back-link" href="dashboard.html">← Dashboard</a>
+    </header>
+
+    <section class="stats">
+        <article class="stat-card">
+            <span>Tổng khoản phí</span>
+            <strong id="totalFees">0</strong>
+        </article>
+        <article class="stat-card">
+            <span>Đã thanh toán</span>
+            <strong id="paidFees">0</strong>
+        </article>
+        <article class="stat-card">
+            <span>Chưa hoàn tất</span>
+            <strong id="unpaidFees">0</strong>
+        </article>
+        <article class="stat-card">
+            <span>Tổng công nợ</span>
+            <strong id="totalDebt">0 ₫</strong>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h2>Tạo khoản phí</h2>
+                <p>Chọn hợp đồng đang hoạt động. Mức phí được lấy từ dữ liệu hợp đồng.</p>
+            </div>
+        </div>
+
+        <form id="feeForm" class="fee-form">
+            <label>
+                Hợp đồng đang hoạt động
+                <select id="contractId" required>
+                    <option value="">Đang tải danh sách hợp đồng...</option>
+                </select>
+            </label>
+
+            <div id="studentInfo" class="student-info">
+                <p>Chọn hợp đồng để xem thông tin sinh viên.</p>
+            </div>
+
+            <label>
+                Tên khoản phí
+                <input type="text" id="feeName"
+                       value="Tiền phòng"
+                       placeholder="Ví dụ: Tiền phòng" required>
+            </label>
+
+            <label>
+                Tháng tính phí
+                <input type="month" id="billingMonth" required>
+            </label>
+
+            <label>
+                Hạn thanh toán
+                <input type="date" id="dueDate" required>
+            </label>
+
+            <div id="contractMonthlyFee" class="contract-fee">
+                Mức phí tháng: Chưa chọn hợp đồng
+            </div>
+
+            <div id="contractMessage" class="message" role="status"></div>
+
+            <div class="form-action">
+                <button type="submit" class="primary-btn">
+                    + Tạo khoản phí
+                </button>
+            </div>
+        </form>
+
+        <p id="formMessage" class="message" role="status"></p>
+    </section>
+
+    <section class="panel">
+        <div class="list-heading">
+            <div>
+                <h2>Danh sách khoản phí</h2>
+                <p>Ghi nhận các lần thanh toán và theo dõi số dư.</p>
+            </div>
+            <button id="refreshBtn" class="secondary-btn" type="button">
+                ↻ Làm mới
+            </button>
+        </div>
+
+        <div class="filters">
+            <input type="search" id="searchInput"
+                   placeholder="Tìm theo tên phí, hợp đồng, sinh viên...">
+            <select id="statusFilter">
+                <option value="">Tất cả trạng thái</option>
+                <option value="UNPAID">Chưa thanh toán</option>
+                <option value="PARTIAL">Thanh toán một phần</option>
+                <option value="PAID">Đã thanh toán</option>
+            </select>
+        </div>
+
+        <p id="listMessage" class="message" role="status"></p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Khoản phí</th>
+                    <th>Sinh viên</th>
+                    <th>Hợp đồng</th>
+                    <th>Tháng</th>
+                    <th>Phải đóng</th>
+                    <th>Đã đóng</th>
+                    <th>Còn nợ</th>
+                    <th>Hạn đóng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody id="feeTableBody">
+                <tr>
+                    <td colspan="11" class="empty">Đang tải dữ liệu...</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- Modal ghi nhận thanh toán -->
+<div class="modal hidden" id="paymentModal">
+    <div class="modal-card">
+        <div class="modal-heading">
+            <div>
+                <p class="eyebrow">GHI NHẬN GIAO DỊCH</p>
+                <h2>Thanh toán khoản phí</h2>
+            </div>
+            <button type="button" id="closeModal" class="close-btn"
+                    aria-label="Đóng">×</button>
+        </div>
+
+        <p id="paymentFeeInfo" class="payment-info"></p>
+
+        <form id="paymentForm">
+            <input type="hidden" id="paymentFeeId">
+
+            <label>
+                Số tiền thanh toán (VNĐ)
+                <input type="number" id="paymentAmount"
+                       min="1" step="1" required>
+            </label>
+
+            <label>
+                Phương thức thanh toán
+                <select id="paymentMethod" required>
+                    <option value="CASH">Tiền mặt</option>
+                    <option value="BANK_TRANSFER">Chuyển khoản</option>
+                </select>
+            </label>
+
+            <label>
+                Mã giao dịch (nếu có)
+                <input type="text" id="referenceCode"
+                       placeholder="Mã giao dịch">
+            </label>
+
+            <label>
+                Ghi chú
+                <textarea id="paymentNote" rows="3"
+                          placeholder="Ghi chú thêm..."></textarea>
+            </label>
+
+            <p id="paymentMessage" class="message" role="status"></p>
+
+            <div class="modal-actions">
+                <button type="button" id="cancelPayment"
+                        class="secondary-btn">Hủy</button>
+                <button type="submit" class="primary-btn">
+                    Xác nhận thanh toán
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal lịch sử thanh toán -->
+<div class="modal hidden" id="historyModal">
+    <div class="modal-card">
+        <div class="modal-heading">
+            <div>
+                <p class="eyebrow">CHI TIẾT GIAO DỊCH</p>
+                <h2>Lịch sử thanh toán</h2>
+            </div>
+            <button type="button" id="closeHistory" class="close-btn"
+                    aria-label="Đóng">×</button>
+        </div>
+        <div id="historyContent"></div>
+    </div>
+</div>
+
+<script src="../../js/admin/fee-management.js"></script>
+</body>
+</html>

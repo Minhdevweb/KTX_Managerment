@@ -7,6 +7,8 @@ import java.util.List;
 //lấy tất cả phòng của tòa A,..
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
+    boolean existsByBuildingId(Long buildingId);
+
     List<Room> findByBuildingId(Long buildingId);
 
     List<Room> findByStatus(String status);

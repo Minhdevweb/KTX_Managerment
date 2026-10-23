@@ -10,6 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import com.ktx.ktx.entity.Bed;
+import com.ktx.ktx.entity.Room;
+import com.ktx.ktx.repository.BedRepository;
+import com.ktx.ktx.repository.RoomRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,14 +26,20 @@ public class AdminContractController {
 
     private final ContractRepository contractRepository;
     private final RegistrationRepository registrationRepository;
+    private final BedRepository bedRepository;
+    private final RoomRepository roomRepository;
 
     public AdminContractController(
             ContractRepository contractRepository,
-            RegistrationRepository registrationRepository) {
+            RegistrationRepository registrationRepository,
+            BedRepository bedRepository,
+            RoomRepository roomRepository) {
+
         this.contractRepository = contractRepository;
         this.registrationRepository = registrationRepository;
+        this.bedRepository = bedRepository;
+        this.roomRepository = roomRepository;
     }
-
     // Chuyển hợp đồng thành dữ liệu JSON đơn giản
     private Map<String, Object> toContractMap(Contract contract) {
         Registration registration = contract.getRegistration();
@@ -240,6 +250,7 @@ public class AdminContractController {
 
     // 4. Hủy hợp đồng
     // PUT /api/admin/contracts/{id}/cancel
+
     @PutMapping("/{id}/cancel")
     @Transactional
     public ResponseEntity<?> cancelContract(@PathVariable Long id) {
@@ -250,32 +261,69 @@ public class AdminContractController {
         if (optionalContract.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of(
-                            "message",
-                            "Không tìm thấy hợp đồng."
+                            "message", "Không tìm thấy hợp đồng."
                     ));
         }
 
         Contract contract = optionalContract.get();
 
-        // Không hủy lại hợp đồng đã hủy
         if ("CANCELLED".equalsIgnoreCase(contract.getStatus())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(Map.of(
-                            "message",
-                            "Hợp đồng này đã được hủy trước đó."
+                            "message", "Hợp đồng này đã được hủy trước đó."
                     ));
         }
 
+        Registration registration = contract.getRegistration();
+
+        // 1. Hủy hợp đồng
         contract.setStatus("CANCELLED");
+        contractRepository.save(contract);
 
-        Contract savedContract = contractRepository.save(contract);
+        // 2. Kết thúc đơn đăng ký cũ, giữ lại lịch sử
+        registration.setStatus("COMPLETED");
+        registrationRepository.save(registration);
 
-        return ResponseEntity.ok(
-                Map.of(
-                        "message", "Hủy hợp đồng thành công.",
-                        "contract", toContractMap(savedContract)
-                )
-        );
+        // 3. Giải phóng giường nếu sinh viên đã trả phòng
+        Bed bed = registration.getBed();
+        Room room = registration.getRoom();
+
+        if (bed != null
+                && "OCCUPIED".equalsIgnoreCase(bed.getStatus())) {
+            bed.setStatus("AVAILABLE");
+            bedRepository.save(bed);
+        }
+
+        // 4. Cập nhật trạng thái phòng, giữ nguyên bảo trì
+        if (room != null
+                && !"MAINTENANCE".equalsIgnoreCase(room.getStatus())) {
+
+            List<Bed> availableBeds =
+                    bedRepository.findByRoomIdAndStatus(
+                            room.getId(), "AVAILABLE");
+
+            if (availableBeds.isEmpty()) {
+                room.setStatus("FULL");
+            } else {
+                room.setStatus("AVAILABLE");
+            }
+
+            roomRepository.save(room);
+        }
+
+        return ResponseEntity.ok(Map.of(
+                "message",
+                "Đã hủy hợp đồng và cập nhật trạng thái đăng ký, giường, phòng.",
+                "contractId",
+                contract.getId(),
+                "contractStatus",
+                contract.getStatus(),
+                "registrationStatus",
+                registration.getStatus(),
+                "bedStatus",
+                bed == null ? "UNKNOWN" : bed.getStatus()
+        ));
     }
+
 
 }

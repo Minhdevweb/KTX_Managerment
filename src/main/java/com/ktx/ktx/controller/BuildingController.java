@@ -5,6 +5,7 @@ import com.ktx.ktx.repository.BuildingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.ktx.ktx.repository.RoomRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +15,13 @@ import java.util.Optional;
 public class BuildingController {
 
     private final BuildingRepository buildingRepository;
+    private final RoomRepository roomRepository;
 
-    public BuildingController(BuildingRepository buildingRepository) {
+    public BuildingController(
+            BuildingRepository buildingRepository,
+            RoomRepository roomRepository) {
         this.buildingRepository = buildingRepository;
+        this.roomRepository = roomRepository;
     }
 
     // Lấy danh sách tất cả tòa nhà
@@ -144,8 +149,7 @@ public class BuildingController {
 
     // Xóa tòa nhà
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBuilding(
-            @PathVariable Long id) {
+    public ResponseEntity<?> deleteBuilding(@PathVariable Long id) {
 
         if (!buildingRepository.existsById(id)) {
             return ResponseEntity
@@ -153,10 +157,16 @@ public class BuildingController {
                     .body("Không tìm thấy tòa nhà!");
         }
 
+        // Không cho xóa nếu tòa nhà vẫn còn phòng
+        if (roomRepository.existsByBuildingId(id)) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Không thể xóa tòa nhà vì vẫn còn phòng. "
+                            + "Vui lòng xử lý các phòng thuộc tòa nhà trước.");
+        }
+
         buildingRepository.deleteById(id);
 
-        return ResponseEntity.ok(
-                "Xóa tòa nhà thành công!"
-        );
+        return ResponseEntity.ok("Xóa tòa nhà thành công!");
     }
 }

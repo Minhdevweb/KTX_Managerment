@@ -1,3 +1,4 @@
+
 package com.ktx.ktx.filter;
 
 import com.ktx.ktx.service.JwtService;
@@ -32,7 +33,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        // Không có Authorization
+        // Log thông tin request, không in token
+        System.out.println("\n========== JWT DEBUG ==========");
+        System.out.println("Request: " + request.getMethod()
+                + " " + request.getRequestURI());
+        System.out.println("Authorization header present: "
+                + (authHeader != null));
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -41,12 +48,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
 
         try {
-
             String username = jwtService.extractUsername(token);
             String role = jwtService.extractRole(token);
 
+            System.out.println("JWT username: " + username);
+            System.out.println("JWT role: " + role);
+
             if (username != null
-                    && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    && SecurityContextHolder.getContext()
+                    .getAuthentication() == null) {
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
@@ -59,19 +69,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 )
                         );
 
-                SecurityContextHolder
-                        .getContext()
+                SecurityContextHolder.getContext()
                         .setAuthentication(authentication);
+
+                System.out.println("Granted authorities: "
+                        + authentication.getAuthorities());
             }
 
         } catch (Exception e) {
+            System.out.println("JWT filter error: "
+                    + e.getClass().getSimpleName());
+
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().write(
                     "{\"message\":\"Token không hợp lệ hoặc đã hết hạn\"}"
             );
             return;
         }
+
+        System.out.println("========== END JWT DEBUG ==========\n");
 
         filterChain.doFilter(request, response);
     }
